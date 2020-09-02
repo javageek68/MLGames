@@ -6,12 +6,32 @@ namespace MLGames
 {
     public class NeuralNetwork : IComparable<NeuralNetwork>
     {
+        public enum ActivationFunctions
+        {
+            sigmoid = 0,
+            tanh = 1,
+            relu = 2,
+            leakyrelu = 3
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public enum MessageTypes
+        {
+            Debug,
+            Exception
+        }
+
+        public Action<MessageTypes, string> SendMessage { get; set; }
+
         //fundamental 
         private int[] layers;//layers
         private float[][] neurons;//neurons
         private float[][] biases;//biasses
         private float[][][] weights;//weights
         private int[] activations;//layers
+        private ActivationFunctions[] layerActivations;
 
         //genetic
         public float fitness = 0;//fitness
@@ -25,7 +45,7 @@ namespace MLGames
         private int deltaCount;
         private Random rnd = null;
 
-        public NeuralNetwork(int[] layers, string[] layerActivations)
+        public NeuralNetwork(int[] layers, ActivationFunctions[] layerActivations)
         {
             this.rnd = new Random(DateTime.Now.Millisecond);
             this.layers = new int[layers.Length];
@@ -33,28 +53,32 @@ namespace MLGames
             {
                 this.layers[i] = layers[i];
             }
+
+            this.layerActivations = layerActivations;
+
             activations = new int[layers.Length - 1];
             for (int i = 0; i < layers.Length - 1; i++)
             {
-                string action = layerActivations[i];
-                switch (action)
-                {
-                    case "sigmoid":
-                        activations[i] = 0;
-                        break;
-                    case "tanh":
-                        activations[i] = 1;
-                        break;
-                    case "relu":
-                        activations[i] = 2;
-                        break;
-                    case "leakyrelu":
-                        activations[i] = 3;
-                        break;
-                    default:
-                        activations[i] = 2;
-                        break;
-                }
+                activations[i] = (int)layerActivations[i];
+                //string action = layerActivations[i];
+                //switch (action)
+                //{
+                //    case "sigmoid":
+                //        activations[i] = 0;
+                //        break;
+                //    case "tanh":
+                //        activations[i] = 1;
+                //        break;
+                //    case "relu":
+                //        activations[i] = 2;
+                //        break;
+                //    case "leakyrelu":
+                //        activations[i] = 3;
+                //        break;
+                //    default:
+                //        activations[i] = 2;
+                //        break;
+                //}
             }
             InitNeurons();
             InitBiases();
@@ -141,38 +165,56 @@ namespace MLGames
             }
             return neurons[layers.Length - 1];
         }
-        //Backpropagation implemtation down until mutation.
-        public float activate(float value, int layer)//all activation functions
+        
+        /// <summary>
+        /// call the activation function
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="layer"></param>
+        /// <returns></returns>
+        public float activate(float value, int layer)
         {
-            switch (activations[layer])
-            {
-                case 0:
-                    return sigmoid(value);
-                case 1:
-                    return tanh(value);
-                case 2:
-                    return relu(value);
-                case 3:
-                    return leakyrelu(value);
-                default:
-                    return relu(value);
-            }
+            //this.Log(MessageTypes.Debug, string.Format("activation {0}", activations[layer]));
+            if (this.layerActivations[layer] == ActivationFunctions.sigmoid) return this.sigmoid(value);
+            else if (this.layerActivations[layer] == ActivationFunctions.tanh) return this.tanh(value);
+            else if (this.layerActivations[layer] == ActivationFunctions.relu) return this.relu(value);
+            else if (this.layerActivations[layer] == ActivationFunctions.leakyrelu) return this.leakyrelu(value);
+            else return this.relu(value);
+
+            //switch (activations[layer])
+            //    {
+            //        case 0:
+            //            return sigmoid(value);
+            //        case 1:
+            //            return tanh(value);
+            //        case 2:
+            //            return relu(value);
+            //        case 3:
+            //            return leakyrelu(value);
+            //        default:
+            //            return relu(value);
+            //    }
         }
         public float activateDer(float value, int layer)//all activation function derivatives
         {
-            switch (activations[layer])
-            {
-                case 0:
-                    return sigmoidDer(value);
-                case 1:
-                    return tanhDer(value);
-                case 2:
-                    return reluDer(value);
-                case 3:
-                    return leakyreluDer(value);
-                default:
-                    return reluDer(value);
-            }
+            if (this.layerActivations[layer] == ActivationFunctions.sigmoid) return this.sigmoidDer(value);
+            else if (this.layerActivations[layer] == ActivationFunctions.tanh) return this.tanhDer(value);
+            else if (this.layerActivations[layer] == ActivationFunctions.relu) return this.reluDer(value);
+            else if (this.layerActivations[layer] == ActivationFunctions.leakyrelu) return this.leakyreluDer(value);
+            else return this.reluDer(value);
+            //switch (activations[layer])
+            //{
+            //    case 0:
+            //        return sigmoidDer(value);
+            //    case 1:
+            //        return tanhDer(value);
+            //    case 2:
+            //        return reluDer(value);
+            //    case 3:
+            //        return leakyreluDer(value);
+            //    default:
+            //        return reluDer(value);
+            //}
         }
 
         public float sigmoid(float x)//activation functions and their corrosponding derivatives
@@ -262,8 +304,12 @@ namespace MLGames
             }
         }
 
-        //Genetic implementations down onwards until save.
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="high"></param>
+        /// <param name="val"></param>
         public void Mutate(int high, float val)//used as a simple mutation function for any genetic implementations.
         {
             for (int i = 0; i < biases.Length; i++)
@@ -380,6 +426,15 @@ namespace MLGames
                 }
             }
             writer.Close();
+        }
+
+        /// <summary>
+        /// Sends messages to the client object
+        /// </summary>
+        /// <param name="strMsg"></param>
+        private void Log(MessageTypes messageType, string strMsg)
+        {
+            if (this.SendMessage != null) this.SendMessage(messageType, strMsg);
         }
     }
 }

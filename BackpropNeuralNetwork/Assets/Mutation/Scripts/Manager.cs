@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static MLGames.NeuralNetwork;
 
 public class Manager : MonoBehaviour
 {
@@ -21,7 +22,8 @@ public class Manager : MonoBehaviour
     //public List<Bot> Bots;
     public List<NeuralNetwork> networks;
     private List<Bot> cars;
-    string[] activation = new string[2] { "tanh", "tanh" };
+    //string[] activation = new string[2] { "tanh", "tanh" };
+    public ActivationFunctions[] activation = new ActivationFunctions[2] { ActivationFunctions.tanh, ActivationFunctions.tanh };
 
     /// <summary>
     /// 
@@ -46,6 +48,7 @@ public class Manager : MonoBehaviour
         for (int i = 0; i < populationSize; i++)
         {
             NeuralNetwork net = new NeuralNetwork(layers, activation);
+            net.SendMessage += this.NetworkMessage;
             net.Load("Assets/Save.txt");//on start load the network save
             networks.Add(net);
         }
@@ -81,6 +84,16 @@ public class Manager : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="messageType"></param>
+    /// <param name="strMsg"></param>
+    private void NetworkMessage(MessageTypes messageType, string strMsg)
+    {
+        Debug.Log(strMsg);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public void SortNetworks()
     {
         for (int i = 0; i < populationSize; i++)
@@ -91,7 +104,9 @@ public class Manager : MonoBehaviour
         networks[populationSize - 1].Save("Assets/Save.txt");//saves networks weights and biases to file, to preserve network performance
         for (int i = 0; i < populationSize / 2; i++)
         {
-            networks[i] = networks[i + populationSize / 2].copy(new NeuralNetwork(layers, activation));
+            NeuralNetwork nn = new NeuralNetwork(layers, activation);
+            nn.SendMessage = this.NetworkMessage;
+            networks[i] = networks[i + populationSize / 2].copy(nn);
             networks[i].Mutate((int)(1/MutationChance), MutationStrength);
         }
     }

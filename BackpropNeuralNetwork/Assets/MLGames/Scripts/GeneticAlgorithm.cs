@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static MLGames.NeuralNetwork;
 
 namespace MLGames
 {
     public class GeneticAlgorithm : MonoBehaviour
     {
+
         public int[] layers = new int[3] { 5, 3, 2 };
-        public string[] activation = new string[2] { "tanh", "tanh" };
+        public ActivationFunctions[] activation = new ActivationFunctions[2] { ActivationFunctions.tanh , ActivationFunctions.tanh };
 
         public int populationSize;
         public string WeightFile = "Assets/Save.txt";

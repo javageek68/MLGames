@@ -2,12 +2,14 @@
 using System;
 using UnityEngine;
 using MLGames;
+using static MLGames.NeuralNetwork;
 
 public class BackpropManager : MonoBehaviour
 {
     NeuralNetwork net;
     int[] layers = new int[3]{ 3, 5, 1 };
-    string[] activation = new string[2] { "leakyrelu", "leakyrelu" };
+    //string[] activation = new string[2] { "leakyrelu", "leakyrelu" };
+    public ActivationFunctions[] activation = new ActivationFunctions[2] { ActivationFunctions.leakyrelu, ActivationFunctions.leakyrelu };
 
     void Start()
     {
