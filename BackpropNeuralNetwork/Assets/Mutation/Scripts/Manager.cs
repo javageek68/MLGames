@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using MLGames;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +23,10 @@ public class Manager : MonoBehaviour
     private List<Bot> cars;
     string[] activation = new string[2] { "tanh", "tanh" };
 
-    void Start()// Start is called before the first frame update
+    /// <summary>
+    /// 
+    /// </summary>
+    void Start()
     {
         Debug.Log("entered start");
         if (populationSize % 2 != 0)
@@ -32,6 +36,9 @@ public class Manager : MonoBehaviour
         InvokeRepeating("CreateBots", 0.1f, timeframe);//repeating function
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public void InitNetworks()
     {
         networks = new List<NeuralNetwork>();
@@ -44,6 +51,9 @@ public class Manager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public void CreateBots()
     {
         Time.timeScale = Gamespeed;//sets gamespeed, which will increase to speed up training
@@ -60,13 +70,17 @@ public class Manager : MonoBehaviour
         cars = new List<Bot>();
         for (int i = 0; i < populationSize; i++)
         {
-            Bot car = (Instantiate(prefab, new Vector3(0, 1.6f, -16), new Quaternion(0, 0, 1, 0))).GetComponent<Bot>();//create botes
+            //create botes
+            Bot car = (Instantiate(prefab, new Vector3(0, 1.6f, -16), new Quaternion(0, 0, 1, 0))).GetComponent<Bot>();
             car.network = networks[i];//deploys network to each learner
             cars.Add(car);
         }
         
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public void SortNetworks()
     {
         for (int i = 0; i < populationSize; i++)
