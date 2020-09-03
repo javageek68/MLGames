@@ -42,3 +42,5 @@ MLGamesCore/MLGamesCore/bin/
 MLGamesCore/TestPlatform/bin/
 UnityNeuralNetwork/Logs/
 UnityNeuralNetwork/Assets/Save.txt
+UnityNeuralNetwork/Assets/Save.xml
+UnityNeuralNetwork/Assets/Save.xml.meta
