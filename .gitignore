@@ -36,3 +36,8 @@ sysinfo.txt
 *.unitypackage
 BackpropNeuralNetwork/.vscode/
 BackpropNeuralNetwork/Logs/
+UnityNeuralNetwork/.vscode/
+MLGamesCore/MLGames/bin/
+MLGamesCore/MLGamesCore/bin/
+MLGamesCore/TestPlatform/bin/
+UnityNeuralNetwork/Logs/
