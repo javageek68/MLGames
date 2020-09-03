@@ -12,6 +12,7 @@ public class Manager : MonoBehaviour
     public GameObject prefab;//holds bot prefab
 
     public int[] layers = new int[3] { 5, 3, 2 };//initializing network to the right size
+    public ActivationFunctions[] activation = new ActivationFunctions[2] { ActivationFunctions.leakyrelu, ActivationFunctions.leakyrelu };
 
     [Range(0.0001f, 1f)] public float MutationChance = 0.01f;
 
@@ -22,8 +23,7 @@ public class Manager : MonoBehaviour
     //public List<Bot> Bots;
     public List<NeuralNetwork> networks;
     private List<Bot> cars;
-    //string[] activation = new string[2] { "tanh", "tanh" };
-    public ActivationFunctions[] activation = new ActivationFunctions[2] { ActivationFunctions.tanh, ActivationFunctions.tanh };
+    
 
     /// <summary>
     /// 
