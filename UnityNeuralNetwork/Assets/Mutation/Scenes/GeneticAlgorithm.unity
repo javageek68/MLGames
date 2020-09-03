@@ -4803,7 +4803,7 @@ MonoBehaviour:
   populationSize: 100
   prefab: {fileID: 1770752276088728431, guid: c2c387109eaeecd41b80093f26c0ae13, type: 3}
   layers: 050000000300000002000000
-  activationFunctions: 0100000001000000
+  activation: 0100000001000000
   MutationChance: 0.05
   MutationStrength: 0.5
   Gamespeed: 1
