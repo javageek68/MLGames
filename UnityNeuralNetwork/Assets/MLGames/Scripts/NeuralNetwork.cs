@@ -139,21 +139,21 @@ namespace MLGames
             float[][][] weights = this.settings.weights;
             float[][] biases = this.settings.biases;
 
-            for (int i = 0; i < inputs.Length; i++)
+            for (int intInputIdx = 0; intInputIdx < inputs.Length; intInputIdx++)
             {
-                neurons[0][i] = inputs[i];
+                neurons[0][intInputIdx] = inputs[intInputIdx];
             }
-            for (int i = 1; i < layers.Length; i++)
+            for (int intLayerIdx = 1; intLayerIdx < layers.Length; intLayerIdx++)
             {
-                int layer = i - 1;
-                for (int j = 0; j < layers[i]; j++)
+                int layer = intLayerIdx - 1;
+                for (int j = 0; j < layers[intLayerIdx]; j++)
                 {
                     float value = 0f;
-                    for (int k = 0; k < layers[i - 1]; k++)
+                    for (int k = 0; k < layers[intLayerIdx - 1]; k++)
                     {
-                        value += weights[i - 1][j][k] * neurons[i - 1][k];
+                        value += weights[intLayerIdx - 1][j][k] * neurons[intLayerIdx - 1][k];
                     }
-                    neurons[i][j] = activate(value + biases[i - 1][j], layer);
+                    neurons[intLayerIdx][j] = activate(value + biases[intLayerIdx - 1][j], layer);
                 }
             }
             return neurons[layers.Length - 1];
@@ -275,14 +275,14 @@ namespace MLGames
         }
         #endregion
 
-        public void Fit(List<float[]> X, List<float[]> y, int epochs)
+        public void Fit(List<float[]> X, List<float[]> Y, int epochs)
         {
             for(int intCurruntEpoch = 0; intCurruntEpoch < epochs; intCurruntEpoch++)
             {
                 int i = 0;
                 foreach (float[] x in X)
                 {
-                    float[] expected = y[i];
+                    float[] expected = Y[i];
                     BackPropagate(x, expected);
                     i++;
                 }
@@ -305,49 +305,60 @@ namespace MLGames
             float[] output = FeedForward(inputs);//runs feed forward to ensure neurons are populated correctly
 
             cost = 0;
-            for (int i = 0; i < output.Length; i++) cost += (float)Math.Pow(output[i] - expected[i], 2);//calculated cost of network
-            cost = cost / 2;//this value is not used in calculions, rather used to identify the performance of the network
+            //calculated cost of network
+            for (int i = 0; i < output.Length; i++) cost += (float)Math.Pow(output[i] - expected[i], 2);
+            //performance cost
+            cost = cost / 2;
 
             float[][] gamma;
 
 
             List<float[]> gammaList = new List<float[]>();
-            for (int i = 0; i < layers.Length; i++)
+            for (int intLayerIdx = 0; intLayerIdx < layers.Length; intLayerIdx++)
             {
-                gammaList.Add(new float[layers[i]]);
+                gammaList.Add(new float[layers[intLayerIdx]]);
             }
-            gamma = gammaList.ToArray();//gamma initialization
+            //gamma initialization
+            gamma = gammaList.ToArray();
 
             int layer = layers.Length - 2;
-            for (int i = 0; i < output.Length; i++) gamma[layers.Length - 1][i] = (output[i] - expected[i]) * activateDer(output[i], layer);//Gamma calculation
-            for (int i = 0; i < layers[layers.Length - 1]; i++)//calculates the w' and b' for the last layer in the network
+            //Gamma calculation
+            for (int i = 0; i < output.Length; i++) gamma[layers.Length - 1][i] = (output[i] - expected[i]) * activateDer(output[i], layer);
+            //calculates the w' and b' for the last layer in the network
+            for (int i = 0; i < layers[layers.Length - 1]; i++)
             {
                 biases[layers.Length - 2][i] -= gamma[layers.Length - 1][i] * learningRate;
                 for (int j = 0; j < layers[layers.Length - 2]; j++)
                 {
-
-                    weights[layers.Length - 2][i][j] -= gamma[layers.Length - 1][i] * neurons[layers.Length - 2][j] * learningRate;//*learning 
+                    //learning
+                    weights[layers.Length - 2][i][j] -= gamma[layers.Length - 1][i] * neurons[layers.Length - 2][j] * learningRate; 
                 }
             }
 
-            for (int i = layers.Length - 2; i > 0; i--)//runs on all hidden layers
+            //runs on all hidden layers
+            for (int intInLayerIdx = layers.Length - 2; intInLayerIdx > 0; intInLayerIdx--)
             {
-                layer = i - 1;
-                for (int j = 0; j < layers[i]; j++)//outputs
+                layer = intInLayerIdx - 1;
+                //outputs
+                for (int j = 0; j < layers[intInLayerIdx]; j++)
                 {
-                    gamma[i][j] = 0;
-                    for (int k = 0; k < gamma[i + 1].Length; k++)
+                    gamma[intInLayerIdx][j] = 0;
+                    for (int k = 0; k < gamma[intInLayerIdx + 1].Length; k++)
                     {
-                        gamma[i][j] = gamma[i + 1][k] * weights[i][k][j];
+                        gamma[intInLayerIdx][j] = gamma[intInLayerIdx + 1][k] * weights[intInLayerIdx][k][j];
                     }
-                    gamma[i][j] *= activateDer(neurons[i][j], layer);//calculate gamma
+                    //calculate gamma
+                    gamma[intInLayerIdx][j] *= activateDer(neurons[intInLayerIdx][j], layer);
                 }
-                for (int j = 0; j < layers[i]; j++)//itterate over outputs of layer
+                //itterate over outputs of layer
+                for (int j = 0; j < layers[intInLayerIdx]; j++)
                 {
-                    biases[i - 1][j] -= gamma[i][j] * learningRate;//modify biases of network
-                    for (int k = 0; k < layers[i - 1]; k++)//itterate over inputs to layer
+                    //modify biases of network
+                    biases[intInLayerIdx - 1][j] -= gamma[intInLayerIdx][j] * learningRate;
+                    for (int k = 0; k < layers[intInLayerIdx - 1]; k++)//itterate over inputs to layer
                     {
-                        weights[i - 1][j][k] -= gamma[i][j] * neurons[i - 1][k] * learningRate;//modify weights of network
+                        //modify weights of network
+                        weights[intInLayerIdx - 1][j][k] -= gamma[intInLayerIdx][j] * neurons[intInLayerIdx - 1][k] * learningRate;
                     }
                 }
             }
@@ -430,7 +441,7 @@ namespace MLGames
             }
             return nn;
         }
-
+        #region "Save and Load"
         /// <summary>
         /// 
         /// </summary>
@@ -485,6 +496,7 @@ namespace MLGames
                 Log(MessageTypes.Exception, string.Format("Error saving weight file {0}", ex.ToString()));
             }
         }
+        #endregion
 
         /// <summary>
         /// Sends messages to the client object

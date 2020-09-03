@@ -13,7 +13,7 @@ namespace MLGames
         public ActivationFunctions[] activation = new ActivationFunctions[2] { ActivationFunctions.tanh , ActivationFunctions.tanh };
 
         public int populationSize;
-        public string WeightFile = "Assets/Save.txt";
+        public string WeightFile = "Assets/TicTacToe.txt";
 
         public float MutationChance = 0.01f;
 
@@ -21,7 +21,7 @@ namespace MLGames
 
 
         public List<NeuralNetwork> networks;
-        private List<Bot> cars;
+ 
 
 
         /// <summary>

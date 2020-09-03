@@ -30,6 +30,8 @@
         {
             this.btnStart = new System.Windows.Forms.Button();
             this.txtStatus = new System.Windows.Forms.TextBox();
+            this.btnTTTMove = new System.Windows.Forms.Button();
+            this.txtMove = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnStart
@@ -57,12 +59,35 @@
             this.txtStatus.Size = new System.Drawing.Size(763, 363);
             this.txtStatus.TabIndex = 1;
             // 
+            // btnTTTMove
+            // 
+            this.btnTTTMove.BackColor = System.Drawing.Color.Black;
+            this.btnTTTMove.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnTTTMove.Location = new System.Drawing.Point(161, 24);
+            this.btnTTTMove.Name = "btnTTTMove";
+            this.btnTTTMove.Size = new System.Drawing.Size(102, 28);
+            this.btnTTTMove.TabIndex = 2;
+            this.btnTTTMove.Text = "TTT Move";
+            this.btnTTTMove.UseVisualStyleBackColor = false;
+            this.btnTTTMove.Click += new System.EventHandler(this.btnTTTMove_Click);
+            // 
+            // txtMove
+            // 
+            this.txtMove.BackColor = System.Drawing.Color.Black;
+            this.txtMove.ForeColor = System.Drawing.Color.White;
+            this.txtMove.Location = new System.Drawing.Point(314, 29);
+            this.txtMove.Name = "txtMove";
+            this.txtMove.Size = new System.Drawing.Size(67, 20);
+            this.txtMove.TabIndex = 3;
+            // 
             // NetTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.txtMove);
+            this.Controls.Add(this.btnTTTMove);
             this.Controls.Add(this.txtStatus);
             this.Controls.Add(this.btnStart);
             this.Name = "NetTester";
@@ -76,5 +101,7 @@
 
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.TextBox txtStatus;
+        private System.Windows.Forms.Button btnTTTMove;
+        private System.Windows.Forms.TextBox txtMove;
     }
 }

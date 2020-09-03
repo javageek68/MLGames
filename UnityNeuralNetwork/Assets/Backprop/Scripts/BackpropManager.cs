@@ -8,9 +8,9 @@ using static MLGames.NNSettings;
 public class BackpropManager : MonoBehaviour
 {
     NeuralNetwork net;
-    int[] layers = new int[3]{ 3, 5, 1 };
+    public int[] layers = new int[4]{ 3, 5, 5, 1 };
     //string[] activation = new string[2] { "leakyrelu", "leakyrelu" };
-    public ActivationFunctions[] activation = new ActivationFunctions[2] { ActivationFunctions.leakyrelu, ActivationFunctions.leakyrelu };
+    public ActivationFunctions[] activation = new ActivationFunctions[3] { ActivationFunctions.leakyrelu, ActivationFunctions.leakyrelu, ActivationFunctions.leakyrelu };
 
     void Start()
     {

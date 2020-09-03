@@ -8,12 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MLGames;
+using TestPlatform.Games;
 using static MLGames.NeuralNetwork;
+using static MLGames.NNSettings;
 
 namespace TestPlatform
 {
     public partial class NetTester : Form
     {
+        TicTacToe ttt = new TicTacToe();
         NeuralNetwork net;
         int[] layers = new int[3] { 3, 5, 1 };
 
@@ -66,6 +69,22 @@ namespace TestPlatform
         }
 
         void Display(string strMsg)
+        {
+            this.txtStatus.AppendText(strMsg + "\r\n");
+        }
+
+        private void btnTTTMove_Click(object sender, EventArgs e)
+        {
+            int move = int.Parse(this.txtMove.Text);
+            bool won = false;
+            bool draw = false;
+            bool valid = ttt.MakeMove(move, ref won, ref draw);
+            string strGameState = this.ttt.ToString();
+            this.DisplayMsg(strGameState);
+            this.DisplayMsg(string.Format("valid {0} won {1} draw {2}", valid, won, draw));
+        }
+
+        private void DisplayMsg(string strMsg)
         {
             this.txtStatus.AppendText(strMsg + "\r\n");
         }
