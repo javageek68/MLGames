@@ -4,6 +4,9 @@ using System.IO;
 
 namespace MLGames
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class NeuralNetwork : IComparable<NeuralNetwork>
     {
         public enum ActivationFunctions
@@ -40,11 +43,14 @@ namespace MLGames
         public float learningRate = 0.01f;//learning rate
         public float cost = 0;
 
-        private float[][] deltaBiases;//biasses
-        private float[][][] deltaWeights;//weights
-        private int deltaCount;
+
         private Random rnd = null;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="layers"></param>
+        /// <param name="layerActivations"></param>
         public NeuralNetwork(int[] layers, ActivationFunctions[] layerActivations)
         {
             this.rnd = new Random(DateTime.Now.Millisecond);
@@ -60,33 +66,16 @@ namespace MLGames
             for (int i = 0; i < layers.Length - 1; i++)
             {
                 activations[i] = (int)layerActivations[i];
-                //string action = layerActivations[i];
-                //switch (action)
-                //{
-                //    case "sigmoid":
-                //        activations[i] = 0;
-                //        break;
-                //    case "tanh":
-                //        activations[i] = 1;
-                //        break;
-                //    case "relu":
-                //        activations[i] = 2;
-                //        break;
-                //    case "leakyrelu":
-                //        activations[i] = 3;
-                //        break;
-                //    default:
-                //        activations[i] = 2;
-                //        break;
-                //}
             }
             InitNeurons();
             InitBiases();
             InitWeights();
         }
 
-
-        private void InitNeurons()//create empty storage array for the neurons in the network.
+        /// <summary>
+        /// create empty storage array for the neurons in the network.
+        /// </summary>
+        private void InitNeurons()
         {
             List<float[]> neuronsList = new List<float[]>();
             for (int i = 0; i < layers.Length; i++)
@@ -96,17 +85,17 @@ namespace MLGames
             neurons = neuronsList.ToArray();
         }
 
-        private void InitBiases()//initializes random array for the biases being held within the network.
+        /// <summary>
+        /// initializes random array for the biases being held within the network.
+        /// </summary>
+        private void InitBiases()
         {
-
-
             List<float[]> biasList = new List<float[]>();
             for (int i = 1; i < layers.Length; i++)
             {
                 float[] bias = new float[layers[i]];
                 for (int j = 0; j < layers[i]; j++)
                 {
-                    //bias[j] = UnityEngine.Random.Range(-0.5f, 0.5f);
                     bias[j] = this.GetNextRandomFloat(-0.5f, 0.5f);
                 }
                 biasList.Add(bias);
@@ -114,6 +103,12 @@ namespace MLGames
             biases = biasList.ToArray();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
         private float GetNextRandomFloat(float min, float max)
         {
             //get the range of values
@@ -123,7 +118,10 @@ namespace MLGames
             return randomValue;
         }
 
-        private void InitWeights()//initializes random array for the weights being held in the network.
+        /// <summary>
+        /// initializes random array for the weights being held in the network.
+        /// </summary>
+        private void InitWeights()
         {
             List<float[][]> weightsList = new List<float[][]>();
             for (int i = 1; i < layers.Length; i++)
@@ -144,7 +142,12 @@ namespace MLGames
             weights = weightsList.ToArray();
         }
 
-        public float[] FeedForward(float[] inputs)//feed forward, inputs >==> outputs.
+        /// <summary>
+        /// feed forward, inputs >==> outputs.
+        /// </summary>
+        /// <param name="inputs"></param>
+        /// <returns></returns>
+        public float[] FeedForward(float[] inputs)
         {
             for (int i = 0; i < inputs.Length; i++)
             {
@@ -180,21 +183,14 @@ namespace MLGames
             else if (this.layerActivations[layer] == ActivationFunctions.relu) return this.relu(value);
             else if (this.layerActivations[layer] == ActivationFunctions.leakyrelu) return this.leakyrelu(value);
             else return this.relu(value);
-
-            //switch (activations[layer])
-            //    {
-            //        case 0:
-            //            return sigmoid(value);
-            //        case 1:
-            //            return tanh(value);
-            //        case 2:
-            //            return relu(value);
-            //        case 3:
-            //            return leakyrelu(value);
-            //        default:
-            //            return relu(value);
-            //    }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="layer"></param>
+        /// <returns></returns>
         public float activateDer(float value, int layer)//all activation function derivatives
         {
             if (this.layerActivations[layer] == ActivationFunctions.sigmoid) return this.sigmoidDer(value);
@@ -202,56 +198,95 @@ namespace MLGames
             else if (this.layerActivations[layer] == ActivationFunctions.relu) return this.reluDer(value);
             else if (this.layerActivations[layer] == ActivationFunctions.leakyrelu) return this.leakyreluDer(value);
             else return this.reluDer(value);
-            //switch (activations[layer])
-            //{
-            //    case 0:
-            //        return sigmoidDer(value);
-            //    case 1:
-            //        return tanhDer(value);
-            //    case 2:
-            //        return reluDer(value);
-            //    case 3:
-            //        return leakyreluDer(value);
-            //    default:
-            //        return reluDer(value);
-            //}
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public float sigmoid(float x)//activation functions and their corrosponding derivatives
         {
             float k = (float)Math.Exp(x);
             return k / (1.0f + k);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public float tanh(float x)
         {
             return (float)Math.Tanh(x);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public float relu(float x)
         {
             return (0 >= x) ? 0 : x;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public float leakyrelu(float x)
         {
             return (0 >= x) ? 0.01f * x : x;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public float sigmoidDer(float x)
         {
             return x * (1 - x);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public float tanhDer(float x)
         {
             return 1 - (x * x);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public float reluDer(float x)
         {
             return (0 >= x) ? 0 : 1;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public float leakyreluDer(float x)
         {
             return (0 >= x) ? 0.01f : 1;
         }
 
-        public void BackPropagate(float[] inputs, float[] expected)//backpropogation;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputs"></param>
+        /// <param name="expected"></param>
+        public void BackPropagate(float[] inputs, float[] expected)
         {
             float[] output = FeedForward(inputs);//runs feed forward to ensure neurons are populated correctly
 
@@ -306,11 +341,11 @@ namespace MLGames
 
 
         /// <summary>
-        /// 
+        /// used as a simple mutation function for any genetic implementations.
         /// </summary>
         /// <param name="high"></param>
         /// <param name="val"></param>
-        public void Mutate(int high, float val)//used as a simple mutation function for any genetic implementations.
+        public void Mutate(int high, float val)
         {
             for (int i = 0; i < biases.Length; i++)
             {
@@ -332,7 +367,12 @@ namespace MLGames
             }
         }
 
-        public int CompareTo(NeuralNetwork other) //Comparing For Genetic implementations. Used for sorting based on the fitness of the network
+        /// <summary>
+        /// Comparing For Genetic implementations. Used for sorting based on the fitness of the network
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public int CompareTo(NeuralNetwork other)
         {
             if (other == null) return 1;
 
@@ -344,7 +384,12 @@ namespace MLGames
                 return 0;
         }
 
-        public NeuralNetwork copy(NeuralNetwork nn) //For creatinga deep copy, to ensure arrays are serialzed.
+        /// <summary>
+        /// For creatinga deep copy, to ensure arrays are serialzed.
+        /// </summary>
+        /// <param name="nn"></param>
+        /// <returns></returns>
+        public NeuralNetwork copy(NeuralNetwork nn) 
         {
             for (int i = 0; i < biases.Length; i++)
             {
@@ -366,8 +411,11 @@ namespace MLGames
             return nn;
         }
 
-        //save and load functions
-        public void Load(string path)//this loads the biases and weights from within a file into the neural network.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
+        public void Load(string path)
         {
             TextReader tr = new StreamReader(path);
             int NumberOfLines = (int)new FileInfo(path).Length;
@@ -402,7 +450,12 @@ namespace MLGames
                 }
             }
         }
-        public void Save(string path)//this is used for saving the biases and weights within the network to a file.
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
+        public void Save(string path)
         {
             File.Create(path).Close();
             StreamWriter writer = new StreamWriter(path, true);
