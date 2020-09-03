@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static MLGames.NeuralNetwork;
+using static MLGames.NNSettings;
 
 public class Manager : MonoBehaviour
 {

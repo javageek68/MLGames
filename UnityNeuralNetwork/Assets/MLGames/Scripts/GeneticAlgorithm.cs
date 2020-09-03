@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using static MLGames.NeuralNetwork;
+using static MLGames.NNSettings;
 
 namespace MLGames
 {

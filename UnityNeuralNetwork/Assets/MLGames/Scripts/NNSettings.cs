@@ -53,5 +53,22 @@ namespace MLGames
         {
            
         }
+
+        public NNSettings(int[] layers, ActivationFunctions[] layerActivations)
+        {
+            this.layers = new int[layers.Length];
+            for (int i = 0; i < layers.Length; i++)
+            {
+                this.layers[i] = layers[i];
+            }
+
+            this.layerActivations = layerActivations;
+
+            activations = new int[layers.Length - 1];
+            for (int i = 0; i < layers.Length - 1; i++)
+            {
+                activations[i] = (int)layerActivations[i];
+            }
+        }
     }
 }

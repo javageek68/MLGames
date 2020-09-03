@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using MLGames;
 using static MLGames.NeuralNetwork;
+using static MLGames.NNSettings;
 
 public class BackpropManager : MonoBehaviour
 {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.IO;
+using static MLGames.NNSettings;
 
 namespace MLGames
 {
@@ -9,13 +10,13 @@ namespace MLGames
     /// </summary>
     public class NeuralNetwork : IComparable<NeuralNetwork>
     {
-        public enum ActivationFunctions
-        {
-            sigmoid = 0,
-            tanh = 1,
-            relu = 2,
-            leakyrelu = 3
-        }
+        //public enum ActivationFunctions
+        //{
+        //    sigmoid = 0,
+        //    tanh = 1,
+        //    relu = 2,
+        //    leakyrelu = 3
+        //}
 
         /// <summary>
         /// 
@@ -28,13 +29,14 @@ namespace MLGames
 
         public Action<MessageTypes, string> SendMessage { get; set; }
 
-        //fundamental 
-        private int[] layers;//layers
-        private float[][] neurons;//neurons
-        private float[][] biases;//biasses
-        private float[][][] weights;//weights
-        private int[] activations;//layers
-        private ActivationFunctions[] layerActivations;
+        public NNSettings settings = null;
+        ////fundamental 
+        //private int[] layers;//layers
+        //private float[][] neurons;//neurons
+        //private float[][] biases;//biasses
+        //private float[][][] weights;//weights
+        //private int[] activations;//layers
+        //private ActivationFunctions[] layerActivations;
 
         //genetic
         public float fitness = 0;//fitness
@@ -53,20 +55,9 @@ namespace MLGames
         /// <param name="layerActivations"></param>
         public NeuralNetwork(int[] layers, ActivationFunctions[] layerActivations)
         {
+            this.settings = new NNSettings(layers, layerActivations);
             this.rnd = new Random(DateTime.Now.Millisecond);
-            this.layers = new int[layers.Length];
-            for (int i = 0; i < layers.Length; i++)
-            {
-                this.layers[i] = layers[i];
-            }
-
-            this.layerActivations = layerActivations;
-
-            activations = new int[layers.Length - 1];
-            for (int i = 0; i < layers.Length - 1; i++)
-            {
-                activations[i] = (int)layerActivations[i];
-            }
+        
             InitNeurons();
             InitBiases();
             InitWeights();
@@ -77,12 +68,14 @@ namespace MLGames
         /// </summary>
         private void InitNeurons()
         {
+            int[] layers = this.settings.layers;
+
             List<float[]> neuronsList = new List<float[]>();
             for (int i = 0; i < layers.Length; i++)
             {
                 neuronsList.Add(new float[layers[i]]);
             }
-            neurons = neuronsList.ToArray();
+            this.settings.neurons = neuronsList.ToArray();
         }
 
         /// <summary>
@@ -90,6 +83,8 @@ namespace MLGames
         /// </summary>
         private void InitBiases()
         {
+            int[] layers = this.settings.layers;
+
             List<float[]> biasList = new List<float[]>();
             for (int i = 1; i < layers.Length; i++)
             {
@@ -100,7 +95,7 @@ namespace MLGames
                 }
                 biasList.Add(bias);
             }
-            biases = biasList.ToArray();
+            this.settings.biases = biasList.ToArray();
         }
 
         /// <summary>
@@ -123,6 +118,8 @@ namespace MLGames
         /// </summary>
         private void InitWeights()
         {
+            int[] layers = this.settings.layers;
+
             List<float[][]> weightsList = new List<float[][]>();
             for (int i = 1; i < layers.Length; i++)
             {
@@ -139,7 +136,7 @@ namespace MLGames
                 }
                 weightsList.Add(layerWeightsList.ToArray());
             }
-            weights = weightsList.ToArray();
+            this.settings.weights = weightsList.ToArray();
         }
 
         /// <summary>
@@ -149,6 +146,11 @@ namespace MLGames
         /// <returns></returns>
         public float[] FeedForward(float[] inputs)
         {
+            int[] layers = this.settings.layers;
+            float[][] neurons = this.settings.neurons;
+            float[][][] weights = this.settings.weights;
+            float[][] biases = this.settings.biases;
+
             for (int i = 0; i < inputs.Length; i++)
             {
                 neurons[0][i] = inputs[i];
@@ -177,11 +179,12 @@ namespace MLGames
         /// <returns></returns>
         public float activate(float value, int layer)
         {
-            //this.Log(MessageTypes.Debug, string.Format("activation {0}", activations[layer]));
-            if (this.layerActivations[layer] == ActivationFunctions.sigmoid) return this.sigmoid(value);
-            else if (this.layerActivations[layer] == ActivationFunctions.tanh) return this.tanh(value);
-            else if (this.layerActivations[layer] == ActivationFunctions.relu) return this.relu(value);
-            else if (this.layerActivations[layer] == ActivationFunctions.leakyrelu) return this.leakyrelu(value);
+            ActivationFunctions acivation = this.settings.layerActivations[layer];
+
+            if (acivation == ActivationFunctions.sigmoid) return this.sigmoid(value);
+            else if (acivation == ActivationFunctions.tanh) return this.tanh(value);
+            else if (acivation == ActivationFunctions.relu) return this.relu(value);
+            else if (acivation == ActivationFunctions.leakyrelu) return this.leakyrelu(value);
             else return this.relu(value);
         }
 
@@ -193,13 +196,15 @@ namespace MLGames
         /// <returns></returns>
         public float activateDer(float value, int layer)//all activation function derivatives
         {
-            if (this.layerActivations[layer] == ActivationFunctions.sigmoid) return this.sigmoidDer(value);
-            else if (this.layerActivations[layer] == ActivationFunctions.tanh) return this.tanhDer(value);
-            else if (this.layerActivations[layer] == ActivationFunctions.relu) return this.reluDer(value);
-            else if (this.layerActivations[layer] == ActivationFunctions.leakyrelu) return this.leakyreluDer(value);
+            ActivationFunctions acivation = this.settings.layerActivations[layer];
+            if (acivation == ActivationFunctions.sigmoid) return this.sigmoidDer(value);
+            else if (acivation == ActivationFunctions.tanh) return this.tanhDer(value);
+            else if (acivation == ActivationFunctions.relu) return this.reluDer(value);
+            else if (acivation == ActivationFunctions.leakyrelu) return this.leakyreluDer(value);
             else return this.reluDer(value);
         }
 
+        #region "Activation functions and their derivatives"
         /// <summary>
         /// 
         /// </summary>
@@ -280,6 +285,7 @@ namespace MLGames
         {
             return (0 >= x) ? 0.01f : 1;
         }
+        #endregion
 
         /// <summary>
         /// 
@@ -288,6 +294,12 @@ namespace MLGames
         /// <param name="expected"></param>
         public void BackPropagate(float[] inputs, float[] expected)
         {
+            int[] layers = this.settings.layers;
+            float[][] neurons = this.settings.neurons;
+            float[][][] weights = this.settings.weights;
+            float[][] biases = this.settings.biases;
+
+
             float[] output = FeedForward(inputs);//runs feed forward to ensure neurons are populated correctly
 
             cost = 0;
@@ -347,6 +359,8 @@ namespace MLGames
         /// <param name="val"></param>
         public void Mutate(int high, float val)
         {
+            float[][][] weights = this.settings.weights;
+            float[][] biases = this.settings.biases;
             for (int i = 0; i < biases.Length; i++)
             {
                 for (int j = 0; j < biases[i].Length; j++)
@@ -391,11 +405,15 @@ namespace MLGames
         /// <returns></returns>
         public NeuralNetwork copy(NeuralNetwork nn) 
         {
+            int[] layers = this.settings.layers;
+            float[][] neurons = this.settings.neurons;
+            float[][][] weights = this.settings.weights;
+            float[][] biases = this.settings.biases;
             for (int i = 0; i < biases.Length; i++)
             {
                 for (int j = 0; j < biases[i].Length; j++)
                 {
-                    nn.biases[i][j] = biases[i][j];
+                    nn.settings.biases[i][j] = biases[i][j];
                 }
             }
             for (int i = 0; i < weights.Length; i++)
@@ -404,7 +422,7 @@ namespace MLGames
                 {
                     for (int k = 0; k < weights[i][j].Length; k++)
                     {
-                        nn.weights[i][j][k] = weights[i][j][k];
+                        nn.settings.weights[i][j][k] = weights[i][j][k];
                     }
                 }
             }
@@ -417,6 +435,9 @@ namespace MLGames
         /// <param name="path"></param>
         public void Load(string path)
         {
+            float[][][] weights = this.settings.weights;
+            float[][] biases = this.settings.biases;
+
             TextReader tr = new StreamReader(path);
             int NumberOfLines = (int)new FileInfo(path).Length;
             string[] ListLines = new string[NumberOfLines];
@@ -457,6 +478,8 @@ namespace MLGames
         /// <param name="path"></param>
         public void Save(string path)
         {
+            float[][][] weights = this.settings.weights;
+            float[][] biases = this.settings.biases;
             File.Create(path).Close();
             StreamWriter writer = new StreamWriter(path, true);
 
