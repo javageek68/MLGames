@@ -14,6 +14,11 @@ public class BackpropManager : MonoBehaviour
 
     void Start()
     {
+        this.OldWay();
+        this.NewWay();
+    }
+    void OldWay()
+    {
         this.net = new NeuralNetwork(layers, activation);
         for (int i = 0; i < 20000; i++)
         {
@@ -28,7 +33,7 @@ public class BackpropManager : MonoBehaviour
         }
         print("cost: "+net.cost);
         
-        UnityEngine.Debug.Log(net.FeedForward(new float[] { 0, 0, 0 })[0]);
+        UnityEngine.Debug.Log(net.FeedForward(new float[] { 0, 0, 0 })[0] + "***");
         UnityEngine.Debug.Log(net.FeedForward(new float[] { 1, 0, 0 })[0]);
         UnityEngine.Debug.Log(net.FeedForward(new float[] { 0, 1, 0 })[0]);
         UnityEngine.Debug.Log(net.FeedForward(new float[] { 0, 0, 1 })[0]);
@@ -46,4 +51,45 @@ public class BackpropManager : MonoBehaviour
         // 1 0 1    => 1
         // 1 1 1    => 1
     }
+
+    void NewWay()
+    {
+        int epochs = 20000;
+        this.net = new NeuralNetwork(layers, activation);
+        List<float[]> X = new List<float[]>();
+        X.Add(new float[] { 0, 0, 0 });
+        X.Add(new float[] { 1, 0, 0 });
+        X.Add(new float[] { 0, 1, 0 });
+        X.Add(new float[] { 0, 0, 1 });
+        X.Add(new float[] { 1, 1, 0 });
+        X.Add(new float[] { 1, 0, 1 });
+        X.Add(new float[] { 1, 1, 1 });
+
+        List<float[]> Y = new List<float[]>();
+        Y.Add(new float[] { 0 });
+        Y.Add(new float[] { 1 });
+        Y.Add(new float[] { 1 });
+        Y.Add(new float[] { 1 });
+        Y.Add(new float[] { 1 });
+        Y.Add(new float[] { 1 });
+        Y.Add(new float[] { 1 });
+        Y.Add(new float[] { 1 });
+
+        this.net.Fit(X, Y, epochs);
+
+     
+        print("cost: " + net.cost);
+
+        UnityEngine.Debug.Log(net.FeedForward(new float[] { 0, 0, 0 })[0] + "***" );
+        UnityEngine.Debug.Log(net.FeedForward(new float[] { 1, 0, 0 })[0]);
+        UnityEngine.Debug.Log(net.FeedForward(new float[] { 0, 1, 0 })[0]);
+        UnityEngine.Debug.Log(net.FeedForward(new float[] { 0, 0, 1 })[0]);
+        UnityEngine.Debug.Log(net.FeedForward(new float[] { 1, 1, 0 })[0]);
+        UnityEngine.Debug.Log(net.FeedForward(new float[] { 0, 1, 1 })[0]);
+        UnityEngine.Debug.Log(net.FeedForward(new float[] { 1, 0, 1 })[0]);
+        UnityEngine.Debug.Log(net.FeedForward(new float[] { 1, 1, 1 })[0]);
+
+    }
+
+
 }

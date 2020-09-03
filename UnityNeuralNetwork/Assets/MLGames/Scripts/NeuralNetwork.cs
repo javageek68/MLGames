@@ -275,6 +275,20 @@ namespace MLGames
         }
         #endregion
 
+        public void Fit(List<float[]> X, List<float[]> y, int epochs)
+        {
+            for(int intCurruntEpoch = 0; intCurruntEpoch < epochs; intCurruntEpoch++)
+            {
+                int i = 0;
+                foreach (float[] x in X)
+                {
+                    float[] expected = y[i];
+                    BackPropagate(x, expected);
+                    i++;
+                }
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
