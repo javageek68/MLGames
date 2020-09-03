@@ -63,6 +63,7 @@ namespace MLGames
             InitWeights();
         }
 
+        #region "Init Network"
         /// <summary>
         /// create empty storage array for the neurons in the network.
         /// </summary>
@@ -138,6 +139,7 @@ namespace MLGames
             }
             this.settings.weights = weightsList.ToArray();
         }
+        #endregion
 
         /// <summary>
         /// feed forward, inputs >==> outputs.
@@ -432,76 +434,56 @@ namespace MLGames
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="path"></param>
-        public void Load(string path)
+        /// <param name="filename"></param>
+        /// <param name="strErrMsg"></param>
+        /// <returns></returns>
+        public bool Load(string filename, ref string strErrMsg)
         {
-            float[][][] weights = this.settings.weights;
-            float[][] biases = this.settings.biases;
-
-            TextReader tr = new StreamReader(path);
-            int NumberOfLines = (int)new FileInfo(path).Length;
-            string[] ListLines = new string[NumberOfLines];
-            int index = 1;
-            for (int i = 1; i < NumberOfLines; i++)
+            bool blnRetVal = true;
+            string strContent = string.Empty;
+            try
             {
-                ListLines[i] = tr.ReadLine();
+                strContent = File.ReadAllText(filename);
+                this.settings = SerializerTools.DeserializeItem<NNSettings>(strContent);
             }
-            tr.Close();
-            if (new FileInfo(path).Length > 0)
+            catch (Exception ex)
             {
-                for (int i = 0; i < biases.Length; i++)
-                {
-                    for (int j = 0; j < biases[i].Length; j++)
-                    {
-                        biases[i][j] = float.Parse(ListLines[index]);
-                        index++;
-                    }
-                }
-
-                for (int i = 0; i < weights.Length; i++)
-                {
-                    for (int j = 0; j < weights[i].Length; j++)
-                    {
-                        for (int k = 0; k < weights[i][j].Length; k++)
-                        {
-                            weights[i][j][k] = float.Parse(ListLines[index]); ;
-                            index++;
-                        }
-                    }
-                }
+                blnRetVal = false;
+                strErrMsg = ex.ToString();
             }
+            return blnRetVal;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="path"></param>
-        public void Save(string path)
+        /// <param name="strNNContents"></param>
+        public void Deserialize(string strNNContents)
         {
-            float[][][] weights = this.settings.weights;
-            float[][] biases = this.settings.biases;
-            File.Create(path).Close();
-            StreamWriter writer = new StreamWriter(path, true);
+            this.settings = SerializerTools.DeserializeItem<NNSettings>(strNNContents);
+        }
 
-            for (int i = 0; i < biases.Length; i++)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="strErrMsg"></param>
+        /// <returns></returns>
+        public bool Save(string filename, ref string strErrMsg)
+        {
+            bool blnRetVal = true;
+            string strContent = string.Empty;
+            try
             {
-                for (int j = 0; j < biases[i].Length; j++)
-                {
-                    writer.WriteLine(biases[i][j]);
-                }
+                strContent = SerializerTools.SerializeItem<NNSettings>(this.settings);
+                File.WriteAllText(filename, strContent);
             }
-
-            for (int i = 0; i < weights.Length; i++)
+            catch (Exception ex)
             {
-                for (int j = 0; j < weights[i].Length; j++)
-                {
-                    for (int k = 0; k < weights[i][j].Length; k++)
-                    {
-                        writer.WriteLine(weights[i][j][k]);
-                    }
-                }
+                blnRetVal = false;
+                strErrMsg = ex.ToString();
             }
-            writer.Close();
+            return blnRetVal;
         }
 
         /// <summary>

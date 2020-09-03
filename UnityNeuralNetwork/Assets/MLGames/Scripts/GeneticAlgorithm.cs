@@ -41,13 +41,14 @@ namespace MLGames
         public void InitNetworks()
         {
             networks = new List<NeuralNetwork>();
+            string strContents = System.IO.File.ReadAllText(this.WeightFile);
 
             for (int i = 0; i < populationSize; i++)
             {
                 NeuralNetwork net = new NeuralNetwork(layers, activation);
                 if (this.WeightFile.Trim().Length > 0)
                 {
-                    net.Load(this.WeightFile);
+                    net.Deserialize(strContents);
                 }
                 networks.Add(net);
             }
@@ -71,10 +72,11 @@ namespace MLGames
         /// </summary>
         public void EvolveNetworks()
         {
+            string strErrMsg = string.Empty;
             //sort the networks by fitness
             networks.Sort();
             //save the weights to a file if one was provided
-            if (this.WeightFile.Trim().Length>0) networks[populationSize - 1].Save(this.WeightFile);
+            if (this.WeightFile.Trim().Length>0) networks[populationSize - 1].Save(this.WeightFile, ref strErrMsg);
             //loop through the top half of the networks
             for (int i = 0; i < populationSize / 2; i++)
             {
