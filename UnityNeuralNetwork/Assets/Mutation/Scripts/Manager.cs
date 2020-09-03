@@ -44,7 +44,6 @@ public class Manager : MonoBehaviour
     /// </summary>
     public void InitNetworks()
     {
-        string strErrMsg = string.Empty;
         networks = new List<NeuralNetwork>();
 
         for (int i = 0; i < populationSize; i++)
@@ -53,8 +52,7 @@ public class Manager : MonoBehaviour
             net.SendMessage += this.NetworkMessage;
             //net.Load_old("Assets/Save.txt");//on start load the network save
             //net.Save("Assets/Save.xml", ref strErrMsg);
-            net.Load("Assets/Save.xml", ref strErrMsg);
-            Debug.Log(strErrMsg);
+            net.Load("Assets/Save.xml");
             networks.Add(net);
         }
     }
@@ -93,7 +91,15 @@ public class Manager : MonoBehaviour
     /// <param name="strMsg"></param>
     private void NetworkMessage(MessageTypes messageType, string strMsg)
     {
-        Debug.Log(strMsg);
+        if (messageType == MessageTypes.Exception)
+        {
+            Debug.LogError(strMsg);
+        }
+        else
+        {
+            Debug.Log(strMsg);
+        }
+        
     }
 
     /// <summary>
@@ -101,13 +107,12 @@ public class Manager : MonoBehaviour
     /// </summary>
     public void SortNetworks()
     {
-        string strErrMsg = string.Empty;
         for (int i = 0; i < populationSize; i++)
         {
             cars[i].UpdateFitness();//gets bots to set their corrosponding networks fitness
         }
         networks.Sort();
-        networks[populationSize - 1].Save("Assets/Save.txt", ref strErrMsg);//saves networks weights and biases to file, to preserve network performance
+        networks[populationSize - 1].Save("Assets/Save.txt");//saves networks weights and biases to file, to preserve network performance
         for (int i = 0; i < populationSize / 2; i++)
         {
             NeuralNetwork nn = new NeuralNetwork(layers, activation);

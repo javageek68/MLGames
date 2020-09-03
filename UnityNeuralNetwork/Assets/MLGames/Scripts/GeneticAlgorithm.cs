@@ -72,11 +72,10 @@ namespace MLGames
         /// </summary>
         public void EvolveNetworks()
         {
-            string strErrMsg = string.Empty;
             //sort the networks by fitness
             networks.Sort();
             //save the weights to a file if one was provided
-            if (this.WeightFile.Trim().Length>0) networks[populationSize - 1].Save(this.WeightFile, ref strErrMsg);
+            if (this.WeightFile.Trim().Length>0) networks[populationSize - 1].Save(this.WeightFile);
             //loop through the top half of the networks
             for (int i = 0; i < populationSize / 2; i++)
             {

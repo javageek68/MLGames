@@ -10,14 +10,7 @@ namespace MLGames
     /// </summary>
     public class NeuralNetwork : IComparable<NeuralNetwork>
     {
-        //public enum ActivationFunctions
-        //{
-        //    sigmoid = 0,
-        //    tanh = 1,
-        //    relu = 2,
-        //    leakyrelu = 3
-        //}
-
+ 
         /// <summary>
         /// 
         /// </summary>
@@ -30,13 +23,6 @@ namespace MLGames
         public Action<MessageTypes, string> SendMessage { get; set; }
 
         public NNSettings settings = null;
-        ////fundamental 
-        //private int[] layers;//layers
-        //private float[][] neurons;//neurons
-        //private float[][] biases;//biasses
-        //private float[][][] weights;//weights
-        //private int[] activations;//layers
-        //private ActivationFunctions[] layerActivations;
 
         //genetic
         public float fitness = 0;//fitness
@@ -437,21 +423,17 @@ namespace MLGames
         /// <param name="filename"></param>
         /// <param name="strErrMsg"></param>
         /// <returns></returns>
-        public bool Load(string filename, ref string strErrMsg)
+        public void Load(string filename)
         {
-            bool blnRetVal = true;
-            string strContent = string.Empty;
             try
             {
-                strContent = File.ReadAllText(filename);
-                this.settings = SerializerTools.DeserializeItem<NNSettings>(strContent);
+                string strContent = File.ReadAllText(filename);
+                this.Deserialize(strContent);
             }
             catch (Exception ex)
             {
-                blnRetVal = false;
-                strErrMsg = ex.ToString();
+                Log(MessageTypes.Exception, string.Format("Error loading weight file {0}", ex.ToString()));
             }
-            return blnRetVal;
         }
 
         /// <summary>
@@ -460,7 +442,15 @@ namespace MLGames
         /// <param name="strNNContents"></param>
         public void Deserialize(string strNNContents)
         {
-            this.settings = SerializerTools.DeserializeItem<NNSettings>(strNNContents);
+            try
+            {
+                this.settings = SerializerTools.DeserializeItem<NNSettings>(strNNContents);
+            }
+            catch (Exception ex)
+            {
+                Log(MessageTypes.Exception, string.Format("Error loading weight data {0}", ex.ToString()));
+            }
+            
         }
 
         /// <summary>
@@ -469,21 +459,17 @@ namespace MLGames
         /// <param name="filename"></param>
         /// <param name="strErrMsg"></param>
         /// <returns></returns>
-        public bool Save(string filename, ref string strErrMsg)
+        public void Save(string filename)
         {
-            bool blnRetVal = true;
-            string strContent = string.Empty;
             try
             {
-                strContent = SerializerTools.SerializeItem<NNSettings>(this.settings);
+                string strContent = SerializerTools.SerializeItem<NNSettings>(this.settings);
                 File.WriteAllText(filename, strContent);
             }
             catch (Exception ex)
             {
-                blnRetVal = false;
-                strErrMsg = ex.ToString();
+                Log(MessageTypes.Exception, string.Format("Error saving weight file {0}", ex.ToString()));
             }
-            return blnRetVal;
         }
 
         /// <summary>
