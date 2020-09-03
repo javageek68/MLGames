@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+
 using static MLGames.NeuralNetwork;
 
 namespace MLGames
 {
-    public class GeneticAlgorithm : MonoBehaviour
+    public class GeneticAlgorithm 
     {
 
         public int[] layers = new int[3] { 5, 3, 2 };
@@ -14,9 +14,9 @@ namespace MLGames
         public int populationSize;
         public string WeightFile = "Assets/Save.txt";
 
-        [Range(0.0001f, 1f)] public float MutationChance = 0.01f;
+        public float MutationChance = 0.01f;
 
-        [Range(0f, 1f)] public float MutationStrength = 0.5f;
+        public float MutationStrength = 0.5f;
 
 
         public List<NeuralNetwork> networks;
@@ -28,7 +28,6 @@ namespace MLGames
         /// </summary>
         void Start()
         {
-            Debug.Log("entered start");
             if (populationSize % 2 != 0)
                 populationSize = 50;//if population size is not even, sets it to fifty
 
