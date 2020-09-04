@@ -21,7 +21,25 @@ namespace MLGames
 
 
         public List<NeuralNetwork> networks;
- 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="layers"></param>
+        /// <param name="activation"></param>
+        /// <param name="populationSize"></param>
+        /// <param name="mutationChance"></param>
+        /// <param name="mutationStrength"></param>
+        /// <param name="weightFileName"></param>
+        public GeneticAlgorithm(int[] layers, ActivationFunctions[] activation, int populationSize, float mutationChance, float mutationStrength, string weightFileName)
+        {
+            this.layers = layers;
+            this.activation = activation;
+            this.populationSize = populationSize;
+            this.MutationChance = mutationChance;
+            this.MutationStrength = mutationStrength;
+            this.WeightFile = weightFileName;
+        }
 
 
         /// <summary>
@@ -38,7 +56,7 @@ namespace MLGames
         /// <summary>
         /// 
         /// </summary>
-        public void InitNetworks()
+        private void InitNetworks()
         {
             networks = new List<NeuralNetwork>();
             string strContents = System.IO.File.ReadAllText(this.WeightFile);

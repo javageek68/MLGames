@@ -17,21 +17,24 @@ namespace TestPlatform.Games
             o
         }
 
+        public int X = 10;
+        public int O = -10;
+
         /// <summary>
         ///  0 - square is empty
         ///  1 - X
         /// -1 - O
         /// </summary>
-        public int[] GameState { get; set; }
+        public float[] GameState { get; set; }
 
-        private Turn currentTurn = Turn.x;
+        public Turn currentTurn = Turn.x;
 
         /// <summary>
         /// 
         /// </summary>
         public TicTacToe()
         {
-            this.GameState = new int[9] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            this.GameState = new float[9] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         }
 
   
@@ -50,9 +53,9 @@ namespace TestPlatform.Games
             //if the square is already filled, then the move is invalid
             if (this.GameState[idx] != 0) return false;
             //default player number of X
-            int playerNumber = 1;
+            int playerNumber = this.X;
             //if it is Os turn then set the player number for O
-            if (this.currentTurn == Turn.o) playerNumber = -1;
+            if (this.currentTurn == Turn.o) playerNumber = this.O;
             //make the move
             this.GameState[idx] = playerNumber;
             //check to see if the player won
@@ -126,11 +129,15 @@ namespace TestPlatform.Games
             return blnRetVal;    
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            int[] b = this.GameState;
+            float[] b = this.GameState;
             string strRetVal = string.Format("{0}|{1}|{2}\r\n----------\r\n{3}|{4}|{5}\r\n----------\r\n{6}|{7}|{8}\r\n", b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7], b[8]);
-            strRetVal = strRetVal.Replace("1", "X").Replace("-1", "O").Replace("0", "   ");
+            strRetVal = strRetVal.Replace(this.O.ToString(), "O").Replace(this.X.ToString(), "X").Replace("0", "   ");
             return strRetVal;
         }
 
