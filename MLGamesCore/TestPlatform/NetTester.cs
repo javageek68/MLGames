@@ -88,5 +88,11 @@ namespace TestPlatform
         {
             this.txtStatus.AppendText(strMsg + "\r\n");
         }
+
+        private void btnStartTrainer_Click(object sender, EventArgs e)
+        {
+            TrainerGUI trainerGUI = new TrainerGUI();
+            trainerGUI.Show();
+        }
     }
 }

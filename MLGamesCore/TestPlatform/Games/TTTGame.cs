@@ -17,7 +17,13 @@ namespace TestPlatform.Games
 
         public bool running { get; set; }
 
-        private float InvalidMoveScore = -0.1f;
+        public int ValidMoves = 0;
+        public int InvalidMoves = 0;
+        public bool won = false;
+        public bool draw = false;
+       
+
+        private float InvalidMoveScore = -1f;
         private float ValidMoveScore = 0.1f;
         private float WonScore = 1f;
         private float LostScore = -1f;
@@ -44,8 +50,7 @@ namespace TestPlatform.Games
         /// </summary>
         public void Play()
         {
-            bool won = false;
-            bool draw = false;
+  
             bool valid = false;
             float score = 0;
 
@@ -79,20 +84,19 @@ namespace TestPlatform.Games
             float[] output = currentPlayer.FeedForward(gameState);
             int idx = NNTools.OneHotDecode(output);
             
-            //keep trying until we make a valid move
-            while(valid == false || won == false || draw == false)
-            {
-                valid = this.game.MakeMove(idx, ref won, ref draw);
-                //grade for making an invalid move
-                if (!valid) currentPlayer.fitness += this.InvalidMoveScore;
-            }
+        
+            valid = this.game.MakeMove(idx, ref this.won, ref this.draw);
+            //grade for making an invalid move
             
             if (valid)
             {
                 //we made a valid move
+                //update stats
+                this.ValidMoves++;
+                //update player fitness
                 currentPlayer.fitness += this.ValidMoveScore;
                 //check to see if we won
-                if (won) 
+                if (this.won) 
                 { 
                     //reward the winner and loser
                     currentPlayer.fitness += this.WonScore;
@@ -100,12 +104,16 @@ namespace TestPlatform.Games
                     this.running = false;
                 }
 
-                if (draw) this.running = false;
+                if (this.draw) this.running = false;
             }
             else
             {
-                //we made an invalid move
-                //already handled this in the while loop
+                //upate stats
+                this.InvalidMoves++;
+                //update player fitness
+                currentPlayer.fitness += this.InvalidMoveScore;
+                //end the game if a player makes an invalid move
+                this.running = false;
             }
         }
 

@@ -6,6 +6,11 @@ using static MLGames.NNSettings;
 
 namespace MLGames
 {
+    /// <summary>
+    /// Creates a population of networks
+    /// Allows each network to be requested by a trainer
+    /// Evolves the population of networks based on fitness
+    /// </summary>
     public class GeneticAlgorithm 
     {
 
@@ -45,7 +50,7 @@ namespace MLGames
         /// <summary>
         /// 
         /// </summary>
-        void Start()
+        public void Start()
         {
             if (populationSize % 2 != 0)
                 populationSize = 50;//if population size is not even, sets it to fifty
@@ -58,16 +63,19 @@ namespace MLGames
         /// </summary>
         private void InitNetworks()
         {
-            networks = new List<NeuralNetwork>();
-            string strContents = System.IO.File.ReadAllText(this.WeightFile);
 
+            networks = new List<NeuralNetwork>();
+            string strContents = string.Empty;
+            //load the weight file if it exists
+            if (System.IO.File.Exists(this.WeightFile)) strContents = System.IO.File.ReadAllText(this.WeightFile);
+
+            //create the initial population of networks
             for (int i = 0; i < populationSize; i++)
             {
                 NeuralNetwork net = new NeuralNetwork(layers, activation);
-                if (this.WeightFile.Trim().Length > 0)
-                {
-                    net.Deserialize(strContents);
-                }
+                //if we loaded a network in, then deserialize it
+                if (strContents.Trim().Length > 0) net.Deserialize(strContents);
+                //add the new network to the population
                 networks.Add(net);
             }
         }
@@ -81,7 +89,7 @@ namespace MLGames
         public NeuralNetwork RequestNetwork(int networkIndex)
         {
             NeuralNetwork nn = null;
-            if (this.networks.Count < networkIndex) nn = this.networks[networkIndex];
+            if (networkIndex < this.networks.Count  ) nn = this.networks[networkIndex];
             return nn;
         }
 

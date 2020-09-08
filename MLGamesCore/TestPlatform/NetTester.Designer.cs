@@ -32,6 +32,7 @@
             this.txtStatus = new System.Windows.Forms.TextBox();
             this.btnTTTMove = new System.Windows.Forms.Button();
             this.txtMove = new System.Windows.Forms.TextBox();
+            this.btnStartTrainer = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnStart
@@ -80,12 +81,25 @@
             this.txtMove.Size = new System.Drawing.Size(67, 20);
             this.txtMove.TabIndex = 3;
             // 
+            // btnStartTrainer
+            // 
+            this.btnStartTrainer.BackColor = System.Drawing.Color.Black;
+            this.btnStartTrainer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnStartTrainer.Location = new System.Drawing.Point(436, 24);
+            this.btnStartTrainer.Name = "btnStartTrainer";
+            this.btnStartTrainer.Size = new System.Drawing.Size(102, 28);
+            this.btnStartTrainer.TabIndex = 4;
+            this.btnStartTrainer.Text = "Start Trainer";
+            this.btnStartTrainer.UseVisualStyleBackColor = false;
+            this.btnStartTrainer.Click += new System.EventHandler(this.btnStartTrainer_Click);
+            // 
             // NetTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnStartTrainer);
             this.Controls.Add(this.txtMove);
             this.Controls.Add(this.btnTTTMove);
             this.Controls.Add(this.txtStatus);
@@ -103,5 +117,6 @@
         private System.Windows.Forms.TextBox txtStatus;
         private System.Windows.Forms.Button btnTTTMove;
         private System.Windows.Forms.TextBox txtMove;
+        private System.Windows.Forms.Button btnStartTrainer;
     }
 }
