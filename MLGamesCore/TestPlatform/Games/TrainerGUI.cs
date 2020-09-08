@@ -27,10 +27,22 @@ namespace TestPlatform.Games
         private void tmrPace_Tick(object sender, EventArgs e)
         {
             this.tmrPace.Enabled = false;
-            this.trainer.Play();
-            this.lblGeneration.Text = this.trainer.Generation.ToString();
-            this.lblInvalidMoves.Text = this.trainer.InvalidMoves.ToString();
-            this.lblValidMoves.Text = this.trainer.ValidMoves.ToString();
+            //play all turns of the generation
+            while (this.trainer.PlayTurn())
+            {
+                //generation being processed
+            }
+            if (this.trainer.GamesRunning == false)
+            {
+                this.lblGeneration.Text = this.trainer.Generation.ToString();
+                this.lblInvalidMoves.Text = this.trainer.InvalidMoves.ToString();
+                this.lblValidMoves.Text = this.trainer.ValidMoves.ToString();
+                this.lblWins.Text = this.trainer.Wins.ToString();
+                this.lblDraws.Text = this.trainer.Draws.ToString();
+                this.lblBadGames.Text = this.trainer.BadGames.ToString();
+                this.trainer.Reward();
+            }
+
             this.tmrPace.Enabled = true;
         }
     }

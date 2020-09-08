@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TestPlatform.Games;
 
 namespace TestPlatform
 {
@@ -16,7 +17,7 @@ namespace TestPlatform
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new NetTester());
+            Application.Run(new NetworkDesigner());
         }
     }
 }

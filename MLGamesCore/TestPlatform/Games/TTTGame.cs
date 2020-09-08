@@ -10,19 +10,24 @@ namespace TestPlatform.Games
 {
     public class TTTGame
     {
+        public enum GameStatus
+        {
+            running,
+            won,
+            draw,
+            badGame
+        }
         public NeuralNetwork playerX { get; set; }
         public NeuralNetwork playerO { get; set; }
 
         public TicTacToe game { get; set; }
 
-        public bool running { get; set; }
+        public GameStatus status { get; set; }
 
         public int ValidMoves = 0;
         public int InvalidMoves = 0;
-        public bool won = false;
-        public bool draw = false;
-       
 
+      
         private float InvalidMoveScore = -1f;
         private float ValidMoveScore = 0.1f;
         private float WonScore = 1f;
@@ -39,7 +44,7 @@ namespace TestPlatform.Games
         /// <param name="player2"></param>
         public TTTGame(NeuralNetwork player1, NeuralNetwork player2)
         {
-            this.running = true;
+            this.status = GameStatus.running;
             this.playerX = player1;
             this.playerO = player2;
             this.game = new TicTacToe();
@@ -48,12 +53,11 @@ namespace TestPlatform.Games
         /// <summary>
         /// 
         /// </summary>
-        public void Play()
+        public void PlayTurn()
         {
   
             bool valid = false;
-            float score = 0;
-
+     
             //get a copy of the game state
             float[] gameState = new float[this.game.GameState.Length];
             this.game.GameState.CopyTo(gameState,0);
@@ -83,10 +87,17 @@ namespace TestPlatform.Games
             //ask the network what move to make given this game state
             float[] output = currentPlayer.FeedForward(gameState);
             int idx = NNTools.OneHotDecode(output);
+
+            bool won = false;
+            bool draw = false;
+            valid = this.game.MakeMove(idx, ref won, ref draw);
             
-        
-            valid = this.game.MakeMove(idx, ref this.won, ref this.draw);
-            //grade for making an invalid move
+            //set the game status
+            if (won) this.status = GameStatus.won;
+            if (draw) this.status = GameStatus.draw;
+            if (!valid) this.status = GameStatus.badGame;
+
+            
             
             if (valid)
             {
@@ -96,15 +107,12 @@ namespace TestPlatform.Games
                 //update player fitness
                 currentPlayer.fitness += this.ValidMoveScore;
                 //check to see if we won
-                if (this.won) 
+                if (this.status == GameStatus.won) 
                 { 
                     //reward the winner and loser
                     currentPlayer.fitness += this.WonScore;
                     otherPlayer.fitness += this.LostScore;
-                    this.running = false;
                 }
-
-                if (this.draw) this.running = false;
             }
             else
             {
@@ -113,7 +121,6 @@ namespace TestPlatform.Games
                 //update player fitness
                 currentPlayer.fitness += this.InvalidMoveScore;
                 //end the game if a player makes an invalid move
-                this.running = false;
             }
         }
 

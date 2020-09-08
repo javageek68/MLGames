@@ -19,8 +19,8 @@ namespace TestPlatform.Games
         public int[] layers = new int[3] { 9, 18, 9 };
         public ActivationFunctions[] activation = new ActivationFunctions[2] { ActivationFunctions.tanh, ActivationFunctions.tanh };
 
-        public int populationSize = 4;
-        public string WeightFile = "TicTacToe.xml";
+        public int populationSize = 100;
+        public string WeightFile = string.Empty; // "TicTacToe.xml";
 
         public float MutationChance = 0.01f;
 
@@ -31,6 +31,9 @@ namespace TestPlatform.Games
         //stats
         public int ValidMoves = 0;
         public int InvalidMoves = 0;
+        public int Wins = 0;
+        public int Draws = 0;
+        public int BadGames = 0;
         public int Generation = 0;
 
         private GeneticAlgorithm geneticAlgorithm = null;
@@ -66,29 +69,44 @@ namespace TestPlatform.Games
         /// <summary>
         /// 
         /// </summary>
-        public void Play()
+        public bool PlayTurn()
         {
             bool blnFoundGameRunning = false;
+            //calculate stats for this set of turn
             this.ValidMoves = 0;
             this.InvalidMoves = 0;
+            this.Wins = 0;
+            this.Draws = 0;
+            this.BadGames = 0;
+
+            //run each game
             foreach(TTTGame game in this.games)
             {
-                if (game.running) 
+                if (game.status == TTTGame.GameStatus.running) 
                 {
-                    game.Play();
-                    this.ValidMoves += game.ValidMoves;
-                    this.InvalidMoves += game.InvalidMoves;
-                    //at least one game is running
+                    //if the game is still running, then call play
+                    game.PlayTurn();
+
+                    ////at least one game is running
                     blnFoundGameRunning = true;
                 }
+                else
+                {
+                    if (game.status == TTTGame.GameStatus.won) this.Wins++;
+                    else if (game.status == TTTGame.GameStatus.draw) this.Draws++;
+                    else if (game.status == TTTGame.GameStatus.badGame) this.BadGames++;
+                }
+                //calculate stats
+                this.ValidMoves += game.ValidMoves;
+                this.InvalidMoves += game.InvalidMoves;
             }
             this.GamesRunning = blnFoundGameRunning;
             if (!blnFoundGameRunning)
             {
                 //all of the games have finished.
-                //it's time to set assign rewards 
-                this.Reward();
+
             }
+            return blnFoundGameRunning;
         }
 
         /// <summary>
