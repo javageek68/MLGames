@@ -18,7 +18,7 @@ namespace MLGames
         public ActivationFunctions[] activation = new ActivationFunctions[2] { ActivationFunctions.tanh , ActivationFunctions.tanh };
 
         public int populationSize;
-        public string WeightFile = "Assets/TicTacToe.txt";
+        public string WeightFile = string.Empty; // "Assets/TicTacToe.txt";
 
         public float MutationChance = 0.01f;
 
