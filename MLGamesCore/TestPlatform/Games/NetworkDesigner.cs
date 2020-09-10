@@ -198,19 +198,91 @@ namespace TestPlatform.Games
             return (blnSizeSelected && blnActSelected);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="idx1"></param>
+        /// <param name="idx2"></param>
+        private void Swap(int idx1, int idx2)
+        {
+            DataGridViewRow row1 = this.dvGrid.Rows[idx1];
+            DataGridViewRow row2 = this.dvGrid.Rows[idx2];
+
+            //make swap space
+            object strSize = string.Empty;
+            object strAct = string.Empty;
+
+            //store row1 in swap
+            strSize = row1.Cells[this.strColSize].Value;
+            strAct = row1.Cells[this.strColActivation].Value;
+
+            //move row2 to row1
+            row1.Cells[this.strColSize].Value = row2.Cells[this.strColSize].Value;
+            row1.Cells[this.strColActivation].Value = row2.Cells[this.strColActivation].Value;
+
+            //move swap to row2
+            row2.Cells[this.strColSize].Value = strSize;
+            row2.Cells[this.strColActivation].Value = strAct;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mnuMoveLayerUpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.dvGrid.SelectedRows != null && this.dvGrid.SelectedRows.Count > 0)
+            try
             {
-                int idx = this.dvGrid.SelectedRows[0].Index;
+                if (this.dvGrid.SelectedRows != null && this.dvGrid.SelectedRows.Count > 0)
+                {
+                    int idx = this.dvGrid.SelectedRows[0].Index;
+                    if (idx > 0)
+                    {
+                        int intOtherIdx = idx - 1;
+                        this.Swap(idx, intOtherIdx);
+                    }
+                }
             }
+            catch (Exception ex)
+            {
+                this.HandleError(ex.ToString());
+            }
+  
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mnuMoveLayerDownToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                if (this.dvGrid.SelectedRows != null && this.dvGrid.SelectedRows.Count > 0)
+                {
+                    int idx = this.dvGrid.SelectedRows[0].Index;
+                    int intOutputLayerIdx = this.GetOutputLayerIdx();
+                    if (idx < intOutputLayerIdx)
+                    {
+                        int intOtherIdx = idx + 1;
+                        this.Swap(idx, intOtherIdx);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.HandleError(ex.ToString());
+            }
+    
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mnuDeleteLayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (this.dvGrid.SelectedRows != null && this.dvGrid.SelectedRows.Count > 0 )
@@ -218,6 +290,11 @@ namespace TestPlatform.Games
                 DataGridViewRow row = this.dvGrid.SelectedRows[0];
                 this.dvGrid.Rows.Remove(row);
             }
+        }
+
+        private void HandleError(string strMsg)
+        {
+            MessageBox.Show(strMsg);
         }
     }
 }
