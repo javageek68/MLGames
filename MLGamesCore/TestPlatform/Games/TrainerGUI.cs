@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MLGames;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -55,6 +56,29 @@ namespace TestPlatform.Games
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            int[] layers = new int[0];
+            int[] activationFunctions = new int[0];
+
+            //show the network designer
+            NetworkDesigner networkDesigner = new NetworkDesigner();
+            if (networkDesigner.ShowDialog() == DialogResult.OK)
+            {
+                //get the structure
+                networkDesigner.GetNetworkStructure(ref layers, ref activationFunctions);
+
+                //display the structure in the gui
+                this.txtLayers.Text = NNTools.ComposeLayerList(layers);
+                this.txtActivations.Text = NNTools.ComposeActivationList(activationFunctions);
+            }
+        }
+
         private void btnStart_Click(object sender, EventArgs e)
         {
             this.trainer = new Trainer();
@@ -96,6 +120,6 @@ namespace TestPlatform.Games
 
         }
 
-  
+
     }
 }
