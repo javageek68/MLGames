@@ -17,7 +17,7 @@ namespace TestPlatform
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new NetworkDesigner());
+            Application.Run(new TrainerGUI());
         }
     }
 }
