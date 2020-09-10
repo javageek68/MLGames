@@ -14,6 +14,7 @@ namespace TestPlatform.Games
     
     public partial class NetworkDesigner : Form
     {
+        string strTableName = "NetworkDefinitionTable";
         string strActivationNone = "none";
 
         string strColLayerName = "LayerName";
@@ -38,6 +39,7 @@ namespace TestPlatform.Games
         private void CreateNetworkDataTable()
         {
             this.dtNetwork = new DataTable();
+            this.dtNetwork.TableName = this.strTableName;
             this.dtNetwork.Columns.Add(strColLayerName);
             this.dtNetwork.Columns.Add(strColSize);
             this.dtNetwork.Columns.Add(strColActivation);
@@ -73,69 +75,50 @@ namespace TestPlatform.Games
 
         private void DvGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            //if (this.dvGrid.CurrentRow != null)
-            //{
-            //    DataGridViewRow dgRow = this.dvGrid.CurrentRow;
-            //    string strSize = dgRow.Cells["Size"].Value.ToString();
-            //    string strActivation = dgRow.Cells["Activation"].Value.ToString();
-            //}
-            this.SaveGridData();
+            //keep layer names updated
+            this.SetLayerNames();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void SaveGridData()
         {
-            this.SetLayerNames();
+            
             this.CreateNetworkDataTable();
-            int intLayerNo = 0;
-            List<int> lstLayers = new List<int>();
-            List<NNSettings.ActivationFunctions> lstAct = new List<NNSettings.ActivationFunctions>();
-            foreach(DataGridViewRow row in this.dvGrid.Rows)
+            foreach (DataGridViewRow row in this.dvGrid.Rows)
             {
-                if (row.Cells[this.strColSize].Value == null || row.Cells[this.strColActivation].Value == null) return;
                 DataRow datarow = this.dtNetwork.NewRow();
-
-                //get layer size from grid
-                string strSize = row.Cells[this.strColSize].Value.ToString();
-                //add layer size to the list
-                lstLayers.Add(int.Parse(strSize));
-
-
-                //get the index of the activation from the grid
-                string strActIndex = row.Cells[this.strColActivation].Value.ToString();
-                int intActIndex = int.Parse(strActIndex);
-
-                //now that we have parsed all of the columns, we can populate the data table row
-                datarow[strColLayerName] = string.Format("Layer_{0}", intLayerNo);
-                datarow[strColSize] = strSize;
-                datarow[strColActivation] = strActIndex;
-
-                //add the new row
+                for(int i = 0; i < row.Cells.Count; i++)
+                {
+                    datarow[i] = row.Cells[i].Value;
+                }
                 this.dtNetwork.Rows.Add(datarow);
-
-                ////convert to in and subject 1 to account for the "none" in the first position
-                ////note that the user should select "none" for the input layer
-                //intActIndex--;
-                ////if the user did not select "none", then add it to the list
-                //if (intActIndex > -1)
-                //{
-                //    NNSettings.ActivationFunctions activationFunction = (NNSettings.ActivationFunctions)intActIndex;
-                //    lstAct.Add(activationFunction);
-                //}
-                //intLayerNo++;
-             
             }
 
-            
-            //there should be 1 less activation functions than layers 
-            //since the first layer doesn't have an activation function.
-            //so, if they are equal, then we need to remove the first 
-            //activation function.
-            //if (lstAct.Count == lstLayers.Count) lstAct.RemoveAt(0);
+        }
 
-            //int[] layers = lstLayers.ToArray();
-            //NNSettings.ActivationFunctions[] actFuncts = lstAct.ToArray();
-            //this.dvGrid.DataSource = this.dtNetwork; 
+        /// <summary>
+        /// 
+        /// </summary>
+        private void LoadGridData()
+        {
+            this.dvGrid.Rows.Clear();
+            //loop through each row in the datatable
+            foreach(DataRow datarow in this.dtNetwork.Rows)
+            {
+                //make a list of string
+                List<string> lstRow = new List<string>();
+                
+                //add each field in the row to a list of strings
+                for (int i = 0; i < datarow.Table.Columns.Count; i++)
+                {
+                    lstRow.Add(datarow[i].ToString());
+                }
 
+                //add the list of strings to the new data view grid row
+                this.dvGrid.Rows.Add(lstRow.ToArray());
+            }
         }
 
         /// <summary>
@@ -209,21 +192,56 @@ namespace TestPlatform.Games
             DataGridViewRow row2 = this.dvGrid.Rows[idx2];
 
             //make swap space
-            object strSize = string.Empty;
-            object strAct = string.Empty;
+            object objSize = string.Empty;
+            object objAct = string.Empty;
 
             //store row1 in swap
-            strSize = row1.Cells[this.strColSize].Value;
-            strAct = row1.Cells[this.strColActivation].Value;
+            objSize = row1.Cells[this.strColSize].Value;
+            objAct = row1.Cells[this.strColActivation].Value;
 
             //move row2 to row1
             row1.Cells[this.strColSize].Value = row2.Cells[this.strColSize].Value;
             row1.Cells[this.strColActivation].Value = row2.Cells[this.strColActivation].Value;
 
             //move swap to row2
-            row2.Cells[this.strColSize].Value = strSize;
-            row2.Cells[this.strColActivation].Value = strAct;
+            row2.Cells[this.strColSize].Value = objSize;
+            row2.Cells[this.strColActivation].Value = objAct;
         }
+
+        #region "Save and Load"
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.sfdFiles.Title = "Select Network Structure File - File Selection";
+            this.sfdFiles.Filter = "Network Structure (*.nsf)|*.nsf|All Files (*.*)|*.*";
+            if (this.sfdFiles.ShowDialog() == DialogResult.OK)
+            {
+                //save the grid to a datatable
+                this.SaveGridData();
+                //write the datatable to a file
+                this.dtNetwork.WriteXml(this.sfdFiles.FileName);
+            }
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.ofdFiles.Title = "Select Network Structure File - File Selection";
+            this.ofdFiles.Filter = "Network Structure (*.nsf)|*.nsf|All Files (*.*)|*.*";
+            if (this.ofdFiles.ShowDialog() == DialogResult.OK)
+            {
+                this.CreateNetworkDataTable();
+                this.dtNetwork.ReadXml(this.ofdFiles.FileName);
+                this.LoadGridData();
+                //this.dvGrid.DataSource = this.dtNetwork;
+            }
+        }
+        #endregion
+
+        #region"Context Menu"
 
         /// <summary>
         /// 
@@ -291,10 +309,14 @@ namespace TestPlatform.Games
                 this.dvGrid.Rows.Remove(row);
             }
         }
+        #endregion
+
 
         private void HandleError(string strMsg)
         {
             MessageBox.Show(strMsg);
         }
+
+
     }
 }

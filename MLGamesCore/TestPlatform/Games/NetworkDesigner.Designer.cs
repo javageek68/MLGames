@@ -44,8 +44,15 @@
             this.mnuMoveLayerUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMoveLayerDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDeleteLayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMain = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ofdFiles = new System.Windows.Forms.OpenFileDialog();
+            this.sfdFiles = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dvGrid)).BeginInit();
             this.cmsMenu.SuspendLayout();
+            this.mnuMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // dvGrid
@@ -54,9 +61,6 @@
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Silver;
             this.dvGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dvGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dvGrid.BackgroundColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.Black;
@@ -73,7 +77,7 @@
             this.Activation});
             this.dvGrid.ContextMenuStrip = this.cmsMenu;
             this.dvGrid.GridColor = System.Drawing.Color.Gray;
-            this.dvGrid.Location = new System.Drawing.Point(8, 12);
+            this.dvGrid.Location = new System.Drawing.Point(0, 24);
             this.dvGrid.MultiSelect = false;
             this.dvGrid.Name = "dvGrid";
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -92,7 +96,7 @@
             this.dvGrid.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.Black;
             this.dvGrid.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.White;
             this.dvGrid.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.DimGray;
-            this.dvGrid.Size = new System.Drawing.Size(485, 221);
+            this.dvGrid.Size = new System.Drawing.Size(519, 235);
             this.dvGrid.TabIndex = 3;
             // 
             // LayerName
@@ -153,19 +157,57 @@
             this.mnuDeleteLayerToolStripMenuItem.Text = "Delete Layer";
             this.mnuDeleteLayerToolStripMenuItem.Click += new System.EventHandler(this.mnuDeleteLayerToolStripMenuItem_Click);
             // 
+            // mnuMain
+            // 
+            this.mnuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.mnuMain.Location = new System.Drawing.Point(0, 0);
+            this.mnuMain.Name = "mnuMain";
+            this.mnuMain.Size = new System.Drawing.Size(519, 24);
+            this.mnuMain.TabIndex = 4;
+            this.mnuMain.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.saveToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Text = "Load";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
             // NetworkDesigner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(519, 259);
+            this.Controls.Add(this.mnuMain);
             this.Controls.Add(this.dvGrid);
             this.ForeColor = System.Drawing.Color.White;
+            this.MainMenuStrip = this.mnuMain;
             this.Name = "NetworkDesigner";
             this.Text = "Network Designer";
             ((System.ComponentModel.ISupportInitialize)(this.dvGrid)).EndInit();
             this.cmsMenu.ResumeLayout(false);
+            this.mnuMain.ResumeLayout(false);
+            this.mnuMain.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -178,5 +220,11 @@
         private System.Windows.Forms.ToolStripMenuItem mnuMoveLayerUpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuMoveLayerDownToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuDeleteLayerToolStripMenuItem;
+        private System.Windows.Forms.MenuStrip mnuMain;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog ofdFiles;
+        private System.Windows.Forms.SaveFileDialog sfdFiles;
     }
 }
