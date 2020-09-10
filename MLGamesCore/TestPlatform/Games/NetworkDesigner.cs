@@ -36,6 +36,36 @@ namespace TestPlatform.Games
             this.CreateNetworkDataTable();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="layers"></param>
+        /// <param name="activationFunctions"></param>
+        public void GetNetworkStructure(ref int[] layers, ref int[] activationFunctions)
+        {
+            List<int> lstLayers = new List<int>();
+            List<int> lstActivations = new List<int>();
+            //make sure the grid data is saved to the data table
+            this.SaveGridData();
+            //copy structure to lists
+            foreach(DataRow dataRow in this.dtNetwork.Rows)
+            {
+                int intLayerSize = int.Parse( dataRow[this.strColSize].ToString());
+                //parse the activation function
+                //subtract 1 to account for the "none" entry at the beginning of the list in the dropdown.
+                int intActivationFunction = (int.Parse(dataRow[this.strColActivation].ToString()))-1;
+                //add items to lists
+                lstLayers.Add(intLayerSize);
+                lstActivations.Add(intActivationFunction);
+            }
+            //the first layer does not have an activation function
+            lstActivations.RemoveAt(0);
+
+            //convert the lists to arrays
+            layers = lstLayers.ToArray();
+            activationFunctions = lstActivations.ToArray();
+        }
+
         private void CreateNetworkDataTable()
         {
             this.dtNetwork = new DataTable();
@@ -310,7 +340,6 @@ namespace TestPlatform.Games
             }
         }
         #endregion
-
 
         private void HandleError(string strMsg)
         {
