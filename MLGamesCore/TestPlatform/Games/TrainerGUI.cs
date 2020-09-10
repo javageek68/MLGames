@@ -12,15 +12,53 @@ namespace TestPlatform.Games
 {
     public partial class TrainerGUI : Form
     {
+        /// <summary>
+        /// 
+        /// </summary>
         Trainer trainer = null;
+        
+        /// <summary>
+        /// 
+        /// </summary>
         public TrainerGUI()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnWeightFileOut_Click(object sender, EventArgs e)
+        {
+            this.sfdFiles.Title = "Select Weight File - File Selection";
+            this.sfdFiles.Filter = "Weight File (*.wght)|*.wght|All Files (*.*)|*.*";
+            if (this.sfdFiles.ShowDialog()== DialogResult.OK)
+            {
+                this.txtWeightFileOut.Text = this.sfdFiles.FileName;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnBrowseWeightFileIn_Click(object sender, EventArgs e)
+        {
+            this.ofdFiles.Title = "Select Weight File - File Selection";
+            this.ofdFiles.Filter = "Weight File (*.wght)|*.wght|All Files (*.*)|*.*";
+            if (this.ofdFiles.ShowDialog()== DialogResult.OK )
+            {
+                this.txtWeightFileIn.Text = this.ofdFiles.FileName;
+            }
+        }
+
         private void btnStart_Click(object sender, EventArgs e)
         {
             this.trainer = new Trainer();
+           
             this.tmrPace.Enabled = true;
         }
 
@@ -45,5 +83,19 @@ namespace TestPlatform.Games
 
             this.tmrPace.Enabled = true;
         }
+
+   
+
+        private void txtWeightFileOut_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label13_Click(object sender, EventArgs e)
+        {
+
+        }
+
+  
     }
 }

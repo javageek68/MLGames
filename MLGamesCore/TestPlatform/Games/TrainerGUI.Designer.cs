@@ -48,10 +48,27 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.gbGeneticParms = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtPopulationSize = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtActivations = new System.Windows.Forms.TextBox();
+            this.txtLayers = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.txtWeightFileIn = new System.Windows.Forms.TextBox();
+            this.txtWeightFileOut = new System.Windows.Forms.TextBox();
+            this.btnBrowseWeightFileIn = new System.Windows.Forms.Button();
+            this.btnWeightFileOut = new System.Windows.Forms.Button();
+            this.ofdFiles = new System.Windows.Forms.OpenFileDialog();
+            this.sfdFiles = new System.Windows.Forms.SaveFileDialog();
             this.gbStats.SuspendLayout();
             this.gbGeneticParms.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtStatus
@@ -227,7 +244,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(18, 41);
+            this.label8.Location = new System.Drawing.Point(18, 46);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(74, 13);
             this.label8.TabIndex = 18;
@@ -235,6 +252,14 @@
             // 
             // gbGeneticParms
             // 
+            this.gbGeneticParms.Controls.Add(this.btnWeightFileOut);
+            this.gbGeneticParms.Controls.Add(this.btnBrowseWeightFileIn);
+            this.gbGeneticParms.Controls.Add(this.txtWeightFileOut);
+            this.gbGeneticParms.Controls.Add(this.txtWeightFileIn);
+            this.gbGeneticParms.Controls.Add(this.label13);
+            this.gbGeneticParms.Controls.Add(this.label12);
+            this.gbGeneticParms.Controls.Add(this.txtPopulationSize);
+            this.gbGeneticParms.Controls.Add(this.label11);
             this.gbGeneticParms.Controls.Add(this.textBox2);
             this.gbGeneticParms.Controls.Add(this.textBox1);
             this.gbGeneticParms.Controls.Add(this.label8);
@@ -242,24 +267,165 @@
             this.gbGeneticParms.ForeColor = System.Drawing.Color.White;
             this.gbGeneticParms.Location = new System.Drawing.Point(138, 18);
             this.gbGeneticParms.Name = "gbGeneticParms";
-            this.gbGeneticParms.Size = new System.Drawing.Size(271, 70);
+            this.gbGeneticParms.Size = new System.Drawing.Size(271, 112);
             this.gbGeneticParms.TabIndex = 19;
             this.gbGeneticParms.TabStop = false;
             this.gbGeneticParms.Text = "Gen Parms";
             // 
-            // textBox1
+            // label13
             // 
-            this.textBox1.Location = new System.Drawing.Point(142, 19);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(86, 20);
-            this.textBox1.TabIndex = 19;
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(18, 117);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(80, 13);
+            this.label13.TabIndex = 24;
+            this.label13.Text = "Weight File Out";
+            this.label13.Visible = false;
+            this.label13.Click += new System.EventHandler(this.label13_Click);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(18, 92);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(72, 13);
+            this.label12.TabIndex = 23;
+            this.label12.Text = "Weight File In";
+            // 
+            // txtPopulationSize
+            // 
+            this.txtPopulationSize.Location = new System.Drawing.Point(142, 64);
+            this.txtPopulationSize.Name = "txtPopulationSize";
+            this.txtPopulationSize.Size = new System.Drawing.Size(86, 20);
+            this.txtPopulationSize.TabIndex = 22;
+            this.txtPopulationSize.Text = "100";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(18, 69);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(80, 13);
+            this.label11.TabIndex = 21;
+            this.label11.Text = "Population Size";
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(142, 41);
+            this.textBox2.Location = new System.Drawing.Point(142, 40);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(86, 20);
             this.textBox2.TabIndex = 20;
+            this.textBox2.Text = "0.5";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(142, 16);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(86, 20);
+            this.textBox1.TabIndex = 19;
+            this.textBox1.Text = "0.01";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.txtActivations);
+            this.groupBox1.Controls.Add(this.txtLayers);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.btnEdit);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
+            this.groupBox1.Location = new System.Drawing.Point(488, 107);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(276, 66);
+            this.groupBox1.TabIndex = 20;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Network Structure";
+            // 
+            // txtActivations
+            // 
+            this.txtActivations.Location = new System.Drawing.Point(158, 34);
+            this.txtActivations.Name = "txtActivations";
+            this.txtActivations.Size = new System.Drawing.Size(86, 20);
+            this.txtActivations.TabIndex = 22;
+            this.txtActivations.Text = "1,1";
+            // 
+            // txtLayers
+            // 
+            this.txtLayers.Location = new System.Drawing.Point(158, 12);
+            this.txtLayers.Name = "txtLayers";
+            this.txtLayers.Size = new System.Drawing.Size(86, 20);
+            this.txtLayers.TabIndex = 21;
+            this.txtLayers.Text = "9, 18, 9";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(81, 38);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(59, 13);
+            this.label10.TabIndex = 23;
+            this.label10.Text = "Activations";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(81, 19);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(38, 13);
+            this.label9.TabIndex = 22;
+            this.label9.Text = "Layers";
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.BackColor = System.Drawing.Color.Black;
+            this.btnEdit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnEdit.Location = new System.Drawing.Point(9, 19);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(61, 28);
+            this.btnEdit.TabIndex = 21;
+            this.btnEdit.Text = "Edit";
+            this.btnEdit.UseVisualStyleBackColor = false;
+            // 
+            // txtWeightFileIn
+            // 
+            this.txtWeightFileIn.Location = new System.Drawing.Point(142, 88);
+            this.txtWeightFileIn.Name = "txtWeightFileIn";
+            this.txtWeightFileIn.Size = new System.Drawing.Size(86, 20);
+            this.txtWeightFileIn.TabIndex = 25;
+            this.txtWeightFileIn.Text = "WeightFile.wght";
+            // 
+            // txtWeightFileOut
+            // 
+            this.txtWeightFileOut.Location = new System.Drawing.Point(142, 113);
+            this.txtWeightFileOut.Name = "txtWeightFileOut";
+            this.txtWeightFileOut.Size = new System.Drawing.Size(86, 20);
+            this.txtWeightFileOut.TabIndex = 26;
+            this.txtWeightFileOut.Visible = false;
+            this.txtWeightFileOut.TextChanged += new System.EventHandler(this.txtWeightFileOut_TextChanged);
+            // 
+            // btnBrowseWeightFileIn
+            // 
+            this.btnBrowseWeightFileIn.BackColor = System.Drawing.Color.Black;
+            this.btnBrowseWeightFileIn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnBrowseWeightFileIn.Location = new System.Drawing.Point(234, 88);
+            this.btnBrowseWeightFileIn.Name = "btnBrowseWeightFileIn";
+            this.btnBrowseWeightFileIn.Size = new System.Drawing.Size(31, 21);
+            this.btnBrowseWeightFileIn.TabIndex = 24;
+            this.btnBrowseWeightFileIn.Text = "...";
+            this.btnBrowseWeightFileIn.UseVisualStyleBackColor = false;
+            this.btnBrowseWeightFileIn.Click += new System.EventHandler(this.btnBrowseWeightFileIn_Click);
+            // 
+            // btnWeightFileOut
+            // 
+            this.btnWeightFileOut.BackColor = System.Drawing.Color.Black;
+            this.btnWeightFileOut.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnWeightFileOut.Location = new System.Drawing.Point(234, 113);
+            this.btnWeightFileOut.Name = "btnWeightFileOut";
+            this.btnWeightFileOut.Size = new System.Drawing.Size(31, 21);
+            this.btnWeightFileOut.TabIndex = 27;
+            this.btnWeightFileOut.Text = "...";
+            this.btnWeightFileOut.UseVisualStyleBackColor = false;
+            this.btnWeightFileOut.Visible = false;
+            this.btnWeightFileOut.Click += new System.EventHandler(this.btnWeightFileOut_Click);
             // 
             // TrainerGUI
             // 
@@ -267,6 +433,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gbGeneticParms);
             this.Controls.Add(this.gbStats);
             this.Controls.Add(this.txtStatus);
@@ -278,6 +445,8 @@
             this.gbStats.PerformLayout();
             this.gbGeneticParms.ResumeLayout(false);
             this.gbGeneticParms.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -306,5 +475,21 @@
         private System.Windows.Forms.GroupBox gbGeneticParms;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox txtActivations;
+        private System.Windows.Forms.TextBox txtLayers;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.TextBox txtPopulationSize;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button btnWeightFileOut;
+        private System.Windows.Forms.Button btnBrowseWeightFileIn;
+        private System.Windows.Forms.TextBox txtWeightFileOut;
+        private System.Windows.Forms.TextBox txtWeightFileIn;
+        private System.Windows.Forms.OpenFileDialog ofdFiles;
+        private System.Windows.Forms.SaveFileDialog sfdFiles;
     }
 }
