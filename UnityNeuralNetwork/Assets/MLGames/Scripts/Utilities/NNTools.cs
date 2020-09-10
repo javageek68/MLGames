@@ -40,5 +40,37 @@ namespace MLGames
             output[index] = 1;
             return output;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="layers"></param>
+        /// <returns></returns>
+        public static string ComposeLayerList(int[] layers)
+        {
+            string strList = string.Empty;
+            for(int i = 0; i < layers.Length; i++)
+            {
+                strList += layers[i].ToString();
+                if (i < layers.Length) strList += ",";
+            }
+            return strList;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="activationFunction"></param>
+        /// <returns></returns>
+        public static string ComposeActivationList(int[] activationFunction)
+        {
+            string strList = string.Empty;
+            for (int i = 0; i < activationFunction.Length; i++)
+            {
+                strList += activationFunction[i].ToString();
+                if (i < activationFunction.Length) strList += ",";
+            }
+            return strList;
+        }
     }
 }
