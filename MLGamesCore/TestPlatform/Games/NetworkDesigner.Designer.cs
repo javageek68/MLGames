@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -35,31 +36,17 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.dvGrid = new System.Windows.Forms.DataGridView();
             this.LayerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Size = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Activation = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.cmsMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuMoveLayerUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMoveLayerDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDeleteLayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dvGrid)).BeginInit();
+            this.cmsMenu.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 11);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Layers";
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(76, 12);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(117, 20);
-            this.numericUpDown1.TabIndex = 2;
             // 
             // dvGrid
             // 
@@ -84,8 +71,9 @@
             this.LayerName,
             this.Size,
             this.Activation});
+            this.dvGrid.ContextMenuStrip = this.cmsMenu;
             this.dvGrid.GridColor = System.Drawing.Color.Gray;
-            this.dvGrid.Location = new System.Drawing.Point(8, 48);
+            this.dvGrid.Location = new System.Drawing.Point(8, 12);
             this.dvGrid.MultiSelect = false;
             this.dvGrid.Name = "dvGrid";
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -104,7 +92,7 @@
             this.dvGrid.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.Black;
             this.dvGrid.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.White;
             this.dvGrid.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.DimGray;
-            this.dvGrid.Size = new System.Drawing.Size(485, 185);
+            this.dvGrid.Size = new System.Drawing.Size(485, 221);
             this.dvGrid.TabIndex = 3;
             // 
             // LayerName
@@ -135,6 +123,36 @@
             this.Activation.HeaderText = "Activation";
             this.Activation.Name = "Activation";
             // 
+            // cmsMenu
+            // 
+            this.cmsMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuMoveLayerUpToolStripMenuItem,
+            this.mnuMoveLayerDownToolStripMenuItem,
+            this.mnuDeleteLayerToolStripMenuItem});
+            this.cmsMenu.Name = "cmsMenu";
+            this.cmsMenu.Size = new System.Drawing.Size(170, 70);
+            // 
+            // mnuMoveLayerUpToolStripMenuItem
+            // 
+            this.mnuMoveLayerUpToolStripMenuItem.Name = "mnuMoveLayerUpToolStripMenuItem";
+            this.mnuMoveLayerUpToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.mnuMoveLayerUpToolStripMenuItem.Text = "Move Layer Up";
+            this.mnuMoveLayerUpToolStripMenuItem.Click += new System.EventHandler(this.mnuMoveLayerUpToolStripMenuItem_Click);
+            // 
+            // mnuMoveLayerDownToolStripMenuItem
+            // 
+            this.mnuMoveLayerDownToolStripMenuItem.Name = "mnuMoveLayerDownToolStripMenuItem";
+            this.mnuMoveLayerDownToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.mnuMoveLayerDownToolStripMenuItem.Text = "Move Layer Down";
+            this.mnuMoveLayerDownToolStripMenuItem.Click += new System.EventHandler(this.mnuMoveLayerDownToolStripMenuItem_Click);
+            // 
+            // mnuDeleteLayerToolStripMenuItem
+            // 
+            this.mnuDeleteLayerToolStripMenuItem.Name = "mnuDeleteLayerToolStripMenuItem";
+            this.mnuDeleteLayerToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.mnuDeleteLayerToolStripMenuItem.Text = "Delete Layer";
+            this.mnuDeleteLayerToolStripMenuItem.Click += new System.EventHandler(this.mnuDeleteLayerToolStripMenuItem_Click);
+            // 
             // NetworkDesigner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -142,25 +160,23 @@
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(519, 259);
             this.Controls.Add(this.dvGrid);
-            this.Controls.Add(this.numericUpDown1);
-            this.Controls.Add(this.label1);
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "NetworkDesigner";
             this.Text = "Network Designer";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dvGrid)).EndInit();
+            this.cmsMenu.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.DataGridView dvGrid;
         private System.Windows.Forms.DataGridViewTextBoxColumn LayerName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Size;
         private System.Windows.Forms.DataGridViewComboBoxColumn Activation;
+        private System.Windows.Forms.ContextMenuStrip cmsMenu;
+        private System.Windows.Forms.ToolStripMenuItem mnuMoveLayerUpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuMoveLayerDownToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuDeleteLayerToolStripMenuItem;
     }
 }

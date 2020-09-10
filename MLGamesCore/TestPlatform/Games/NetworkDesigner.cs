@@ -16,8 +16,10 @@ namespace TestPlatform.Games
     {
         string strActivationNone = "none";
 
+        string strColLayerName = "LayerName";
         string strColSize = "Size";
         string strColActivation = "Activation";
+        DataTable dtNetwork = null;
 
         //NeuralNetwork nn = new NeuralNetwork()
         public NetworkDesigner()
@@ -25,14 +27,20 @@ namespace TestPlatform.Games
             InitializeComponent();
             this.Load += NetworkDesigner_Load;
             this.dvGrid.CellValueChanged += DvGrid_CellValueChanged;
-            
         }
-
-    
 
         private void NetworkDesigner_Load(object sender, EventArgs e)
         {
             this.PopulationActivationDDL();
+            this.CreateNetworkDataTable();
+        }
+
+        private void CreateNetworkDataTable()
+        {
+            this.dtNetwork = new DataTable();
+            this.dtNetwork.Columns.Add(strColLayerName);
+            this.dtNetwork.Columns.Add(strColSize);
+            this.dtNetwork.Columns.Add(strColActivation);
         }
 
         private void PopulationActivationDDL()
@@ -76,34 +84,140 @@ namespace TestPlatform.Games
 
         private void SaveGridData()
         {
-            
+            this.SetLayerNames();
+            this.CreateNetworkDataTable();
+            int intLayerNo = 0;
             List<int> lstLayers = new List<int>();
             List<NNSettings.ActivationFunctions> lstAct = new List<NNSettings.ActivationFunctions>();
             foreach(DataGridViewRow row in this.dvGrid.Rows)
             {
                 if (row.Cells[this.strColSize].Value == null || row.Cells[this.strColActivation].Value == null) return;
+                DataRow datarow = this.dtNetwork.NewRow();
 
                 //get layer size from grid
                 string strSize = row.Cells[this.strColSize].Value.ToString();
                 //add layer size to the list
                 lstLayers.Add(int.Parse(strSize));
 
+
                 //get the index of the activation from the grid
                 string strActIndex = row.Cells[this.strColActivation].Value.ToString();
-                //convert to in and subject 1 to account for the "none" in the first position
-                //note that the user should select "none" for the input layer
-                int intActIndex = int.Parse(strActIndex) - 1;
-                //if the user did not select "none", then add it to the list
-                if (intActIndex > -1)
-                {
-                    NNSettings.ActivationFunctions activationFunction = (NNSettings.ActivationFunctions)intActIndex;
-                    lstAct.Add(activationFunction);
-                }
+                int intActIndex = int.Parse(strActIndex);
+
+                //now that we have parsed all of the columns, we can populate the data table row
+                datarow[strColLayerName] = string.Format("Layer_{0}", intLayerNo);
+                datarow[strColSize] = strSize;
+                datarow[strColActivation] = strActIndex;
+
+                //add the new row
+                this.dtNetwork.Rows.Add(datarow);
+
+                ////convert to in and subject 1 to account for the "none" in the first position
+                ////note that the user should select "none" for the input layer
+                //intActIndex--;
+                ////if the user did not select "none", then add it to the list
+                //if (intActIndex > -1)
+                //{
+                //    NNSettings.ActivationFunctions activationFunction = (NNSettings.ActivationFunctions)intActIndex;
+                //    lstAct.Add(activationFunction);
+                //}
+                //intLayerNo++;
              
             }
-            int[] layers = lstLayers.ToArray();
-            NNSettings.ActivationFunctions[] actFuncts = lstAct.ToArray();
 
+            
+            //there should be 1 less activation functions than layers 
+            //since the first layer doesn't have an activation function.
+            //so, if they are equal, then we need to remove the first 
+            //activation function.
+            //if (lstAct.Count == lstLayers.Count) lstAct.RemoveAt(0);
+
+            //int[] layers = lstLayers.ToArray();
+            //NNSettings.ActivationFunctions[] actFuncts = lstAct.ToArray();
+            //this.dvGrid.DataSource = this.dtNetwork; 
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void SetLayerNames()
+        {
+            //get the index position of the output layer
+            int intOutputLayerIdx = this.GetOutputLayerIdx();
+
+            for (int idx = 0; idx <= intOutputLayerIdx; idx++)
+            {
+                string strLayerName = string.Empty;
+                if (idx == 0) strLayerName = "Input Layer";
+                else if (idx == intOutputLayerIdx) strLayerName = "Output Layer";
+                else strLayerName = string.Format("Hidden Layer {0}",idx);
+                //set the layer name
+                this.dvGrid.Rows[idx].Cells[strColLayerName].Value = strLayerName;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private int GetOutputLayerIdx()
+        {
+            int intOutputLayerIdx = 0;
+            //The grid view creates a new row as soon as the user starts editing the one before it
+            //So, the last row in the grid may not be intended to be the output layer.
+            //We will consider the last complete row to be the output layer
+            for (int index = this.dvGrid.Rows.Count-1; index >= 0; index--)
+            {
+                if (this.RowComplete(index))
+                {
+                    intOutputLayerIdx = index;
+                    break;
+                }
+            }
+            return intOutputLayerIdx;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="intRow"></param>
+        /// <returns></returns>
+        private bool RowComplete(int intRow)
+        {
+            DataGridViewRow row = this.dvGrid.Rows[intRow];
+            string strSize = string.Empty;
+            string strAct = string.Empty;
+
+            if (row.Cells[this.strColSize].Value != null) strSize = row.Cells[this.strColSize].Value.ToString().Trim();
+            if (row.Cells[this.strColActivation].Value != null) strAct = row.Cells[this.strColActivation].Value.ToString().Trim();
+
+            bool blnSizeSelected = strSize.Length > 0;
+            bool blnActSelected = strAct.Length > 0;
+
+            return (blnSizeSelected && blnActSelected);
+        }
+
+        private void mnuMoveLayerUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.dvGrid.SelectedRows != null && this.dvGrid.SelectedRows.Count > 0)
+            {
+                int idx = this.dvGrid.SelectedRows[0].Index;
+            }
+        }
+
+        private void mnuMoveLayerDownToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuDeleteLayerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.dvGrid.SelectedRows != null && this.dvGrid.SelectedRows.Count > 0 )
+            {
+                DataGridViewRow row = this.dvGrid.SelectedRows[0];
+                this.dvGrid.Rows.Remove(row);
+            }
         }
     }
 }
