@@ -50,6 +50,8 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdFiles = new System.Windows.Forms.OpenFileDialog();
             this.sfdFiles = new System.Windows.Forms.SaveFileDialog();
+            this.btnAccept = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dvGrid)).BeginInit();
             this.cmsMenu.SuspendLayout();
             this.mnuMain.SuspendLayout();
@@ -61,6 +63,9 @@
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Silver;
             this.dvGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dvGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dvGrid.BackgroundColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.Black;
@@ -96,7 +101,7 @@
             this.dvGrid.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.Black;
             this.dvGrid.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.White;
             this.dvGrid.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.DimGray;
-            this.dvGrid.Size = new System.Drawing.Size(519, 235);
+            this.dvGrid.Size = new System.Drawing.Size(443, 169);
             this.dvGrid.TabIndex = 3;
             // 
             // LayerName
@@ -163,7 +168,7 @@
             this.fileToolStripMenuItem});
             this.mnuMain.Location = new System.Drawing.Point(0, 0);
             this.mnuMain.Name = "mnuMain";
-            this.mnuMain.Size = new System.Drawing.Size(519, 24);
+            this.mnuMain.Size = new System.Drawing.Size(443, 24);
             this.mnuMain.TabIndex = 4;
             this.mnuMain.Text = "menuStrip1";
             // 
@@ -190,18 +195,48 @@
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
+            // btnAccept
+            // 
+            this.btnAccept.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAccept.BackColor = System.Drawing.Color.Black;
+            this.btnAccept.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnAccept.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnAccept.Location = new System.Drawing.Point(24, 206);
+            this.btnAccept.Name = "btnAccept";
+            this.btnAccept.Size = new System.Drawing.Size(102, 28);
+            this.btnAccept.TabIndex = 5;
+            this.btnAccept.Text = "Accept";
+            this.btnAccept.UseVisualStyleBackColor = false;
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.BackColor = System.Drawing.Color.Black;
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnCancel.Location = new System.Drawing.Point(327, 206);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(102, 28);
+            this.btnCancel.TabIndex = 6;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = false;
+            // 
             // NetworkDesigner
             // 
+            this.AcceptButton = this.btnAccept;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(519, 259);
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(443, 246);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.mnuMain);
             this.Controls.Add(this.dvGrid);
             this.ForeColor = System.Drawing.Color.White;
             this.MainMenuStrip = this.mnuMain;
             this.Name = "NetworkDesigner";
-            this.Text = "Network Designer";
+            this.Text = "Network Designer and Selection";
             ((System.ComponentModel.ISupportInitialize)(this.dvGrid)).EndInit();
             this.cmsMenu.ResumeLayout(false);
             this.mnuMain.ResumeLayout(false);
@@ -226,5 +261,7 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog ofdFiles;
         private System.Windows.Forms.SaveFileDialog sfdFiles;
+        private System.Windows.Forms.Button btnAccept;
+        private System.Windows.Forms.Button btnCancel;
     }
 }
