@@ -478,6 +478,11 @@ namespace MLGames
             
         }
 
+        public string Serialize()
+        {
+            return SerializerTools.SerializeItem<NNSettings>(this.settings);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -488,7 +493,7 @@ namespace MLGames
         {
             try
             {
-                string strContent = SerializerTools.SerializeItem<NNSettings>(this.settings);
+                string strContent = this.Serialize();
                 File.WriteAllText(filename, strContent);
             }
             catch (Exception ex)

@@ -18,7 +18,6 @@ namespace MLGames
         public ActivationFunctions[] activation = new ActivationFunctions[2] { ActivationFunctions.tanh , ActivationFunctions.tanh };
 
         public int populationSize;
-        public string WeightFile = string.Empty; // "Assets/TicTacToe.txt";
 
         public float MutationChance = 0.01f;
 
@@ -26,6 +25,26 @@ namespace MLGames
 
 
         public List<NeuralNetwork> networks;
+
+        private NeuralNetwork startingNetwork;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="layers"></param>
+        /// <param name="activation"></param>
+        /// <param name="populationSize"></param>
+        /// <param name="mutationChance"></param>
+        /// <param name="mutationStrength"></param>
+        public GeneticAlgorithm(int[] layers, ActivationFunctions[] activation, int populationSize, float mutationChance, float mutationStrength)
+        {
+            this.layers = layers;
+            this.activation = activation;
+            this.populationSize = populationSize;
+            this.MutationChance = mutationChance;
+            this.MutationStrength = mutationStrength;
+            this.startingNetwork = null;
+        }
 
         /// <summary>
         /// 
@@ -36,14 +55,14 @@ namespace MLGames
         /// <param name="mutationChance"></param>
         /// <param name="mutationStrength"></param>
         /// <param name="weightFileName"></param>
-        public GeneticAlgorithm(int[] layers, ActivationFunctions[] activation, int populationSize, float mutationChance, float mutationStrength, string weightFileName)
+        public GeneticAlgorithm(int[] layers, ActivationFunctions[] activation, int populationSize, float mutationChance, float mutationStrength, NeuralNetwork startingNetwork)
         {
             this.layers = layers;
             this.activation = activation;
             this.populationSize = populationSize;
             this.MutationChance = mutationChance;
             this.MutationStrength = mutationStrength;
-            this.WeightFile = weightFileName;
+            this.startingNetwork = startingNetwork;
         }
 
 
@@ -66,8 +85,8 @@ namespace MLGames
 
             networks = new List<NeuralNetwork>();
             string strContents = string.Empty;
-            //load the weight file if it exists
-            if (System.IO.File.Exists(this.WeightFile)) strContents = System.IO.File.ReadAllText(this.WeightFile);
+            //if are starting from an existing network, then serialize it to make a deep copy
+            if (this.startingNetwork != null) strContents = startingNetwork.Serialize();
 
             //create the initial population of networks
             for (int i = 0; i < populationSize; i++)
@@ -80,7 +99,6 @@ namespace MLGames
             }
         }
 
- 
         /// <summary>
         /// 
         /// </summary>
@@ -96,12 +114,22 @@ namespace MLGames
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        public NeuralNetwork RequestBestNetwork()
+        {
+            //get the best one
+            return this.RequestNetwork(this.networks.Count - 1);
+        }
+
+ 
+        /// <summary>
+        /// 
+        /// </summary>
         public void EvolveNetworks()
         {
             //sort the networks by fitness
             networks.Sort();
-            //save the weights to a file if one was provided
-            if (this.WeightFile.Trim().Length>0) networks[populationSize - 1].Save(this.WeightFile);
+
             //loop through the top half of the networks
             for (int i = 0; i < populationSize / 2; i++)
             {

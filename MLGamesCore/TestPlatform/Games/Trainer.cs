@@ -1,9 +1,11 @@
 ﻿using MLGames;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using static MLGames.NNSettings;
 
 namespace TestPlatform.Games
@@ -16,16 +18,24 @@ namespace TestPlatform.Games
     /// </summary>
     public class Trainer
     {
+        public enum MessageTypes
+        {
+            info,
+            waring,
+            exception
+        }
+
+        public Action<MessageTypes, string> OnTrainerMessage { get; set; }
+
         public int[] layers = new int[3] { 9, 18, 9 };
         public ActivationFunctions[] activation = new ActivationFunctions[2] { ActivationFunctions.tanh, ActivationFunctions.tanh };
 
         public int populationSize = 100;
-        public string WeightFile = string.Empty; // "TicTacToe.xml";
-
+        public string WeightFileIn = string.Empty; // "TicTacToe.xml";
+        public string WeightFileOut = string.Empty;
         public float MutationChance = 0.01f;
-
         public float MutationStrength = 0.5f;
-
+        public int saveWeightsFrequency = -1;
         public bool GamesRunning = true;
 
         //stats
@@ -38,20 +48,70 @@ namespace TestPlatform.Games
 
         private GeneticAlgorithm geneticAlgorithm = null;
         private List<TTTGame> games = new List<TTTGame>();
+        private NeuralNetwork startingNetwork;
 
-        public Trainer()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="layers"></param>
+        /// <param name="activation"></param>
+        /// <param name="populationSize"></param>
+        /// <param name="mutationChance"></param>
+        /// <param name="mutationStrength"></param>
+        /// <param name="strWeightFileIn"></param>
+        /// <param name="strBaseWeightFileOut"></param>
+        /// <param name="intSaveWeightsFrequency"></param>
+        public Trainer(int[] layers, ActivationFunctions[] activation, int populationSize, float mutationChance, float mutationStrength, string strWeightFileIn, string strBaseWeightFileOut, int intSaveWeightsFrequency)
         {
+            this.layers = layers;
+            this.activation = activation;
+            this.populationSize = populationSize;
+            this.MutationChance = mutationChance;
+            this.MutationStrength = mutationStrength;
+            this.WeightFileIn = strWeightFileIn;
+            this.WeightFileOut = strBaseWeightFileOut;
+            this.saveWeightsFrequency = intSaveWeightsFrequency;
+            if (strWeightFileIn.Trim().Length > 0) this.Load(strWeightFileIn);
             this.InitTraining();
         }
 
         private void InitTraining()
         {
+            
             //create an instance of the genetic algorigthm
-            this.geneticAlgorithm = new GeneticAlgorithm(this.layers, this.activation, this.populationSize, this.MutationChance, this.MutationStrength, this.WeightFile);
+            this.geneticAlgorithm = new GeneticAlgorithm(this.layers, this.activation, this.populationSize, this.MutationChance, this.MutationStrength, this.startingNetwork);
             this.geneticAlgorithm.Start();
             this.AssignGames();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strFileName"></param>
+        /// <returns></returns>
+        public void Load(string strFileName)
+        {
+            string strContent = System.IO.File.ReadAllText(strFileName);
+            NeuralNetwork nn = new NeuralNetwork(this.layers, this.activation);
+            nn.Deserialize(strContent);
+            this.startingNetwork = nn;
+        }
+
+        public void Save()
+        {
+            //get the output file name
+            string strFileName = string.Format("{0}_{1:0000000}_{2:yyyyMMddhhmmss}.wght", this.WeightFileOut, this.Generation, DateTime.Now);
+            //get the best network for ga
+            NeuralNetwork nn = this.geneticAlgorithm.RequestBestNetwork();
+            //serialize the network
+            string strContents = nn.Serialize();
+            //write it to a file
+            System.IO.File.WriteAllText(strFileName, strContents);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         private void AssignGames()
         {
             this.games = new List<TTTGame>();
@@ -116,7 +176,19 @@ namespace TestPlatform.Games
         {
             this.geneticAlgorithm.EvolveNetworks();
             this.Generation++;
+            //save the weight files every saveWeightsFrequency generations
+            if (this.Generation % this.saveWeightsFrequency == 0) this.Save();
             this.AssignGames();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="messageType"></param>
+        /// <param name="strMsg"></param>
+        private void Log(MessageTypes messageType, string strMsg)
+        {
+            if (this.OnTrainerMessage != null) this.OnTrainerMessage.Invoke(messageType, strMsg);
         }
     }
 }

@@ -5,9 +5,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TestPlatform.Common;
+using static MLGames.NNSettings;
 
 namespace TestPlatform.Games
 {
@@ -79,13 +82,45 @@ namespace TestPlatform.Games
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStart_Click(object sender, EventArgs e)
         {
-            this.trainer = new Trainer();
-           
-            this.tmrPace.Enabled = true;
+            try
+            {
+                //get input from the ui
+                int[] layers = StringUtils.ParseIntArray(this.txtLayers.Text);
+                ActivationFunctions[] activation = (ActivationFunctions[])(object)StringUtils.ParseIntArray(this.txtActivations.Text);
+                int populationSize = int.Parse(this.txtPopulationSize.Text);
+                float mutationChance = float.Parse(this.txtMutationChance.Text);
+                float mutationStrength = float.Parse(this.txtMutationStrength.Text);
+                string strWeightFileIn = this.txtWeightFileIn.Text;
+                string strBaseWeightFileOut = this.txtWeightFileOut.Text;
+                int intSaveWeightsFrequency = int.Parse(this.txtSaveFrequency.Text);
+
+                //create the trainer
+                this.trainer = new Trainer(layers, activation, populationSize, mutationChance, mutationStrength, strWeightFileIn, strBaseWeightFileOut, intSaveWeightsFrequency);
+                
+                //start the timer
+                this.tmrPace.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                this.DisplayMsg(ex.ToString());
+            }
+
+ 
+
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tmrPace_Tick(object sender, EventArgs e)
         {
             this.tmrPace.Enabled = false;
@@ -108,18 +143,14 @@ namespace TestPlatform.Games
             this.tmrPace.Enabled = true;
         }
 
-   
-
-        private void txtWeightFileOut_TextChanged(object sender, EventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strMsg"></param>
+        private void DisplayMsg(string strMsg)
         {
-
+            this.txtStatus.AppendText(strMsg + "\r\n");
         }
-
-        private void label13_Click(object sender, EventArgs e)
-        {
-
-        }
-
 
     }
 }
