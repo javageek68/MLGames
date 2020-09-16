@@ -50,6 +50,8 @@ namespace TestPlatform.Games
             //copy structure to lists
             foreach(DataRow dataRow in this.dtNetwork.Rows)
             {
+                //the last row is emty sometimes
+                if (dataRow[this.strColSize].ToString().Trim().Length == 0) break;
                 int intLayerSize = int.Parse( dataRow[this.strColSize].ToString());
                 //parse the activation function
                 //subtract 1 to account for the "none" entry at the beginning of the list in the dropdown.
