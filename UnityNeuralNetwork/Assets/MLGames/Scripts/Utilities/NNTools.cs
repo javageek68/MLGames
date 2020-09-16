@@ -72,5 +72,19 @@ namespace MLGames
             }
             return strList;
         }
+
+        /// <summary>
+        /// replace each occurance of source in data with replaceValue
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="source"></param>
+        /// <param name="replaceValue"></param>
+        public static void Transform(ref float[] data, float source, float replaceValue)
+        {
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (data[i] == source) data[i] = replaceValue;
+            }
+        }
     }
 }

@@ -37,6 +37,15 @@ namespace MLGames
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="strWeightFileName"></param>
+        public NeuralNetwork(string strWeightFileName)
+        {
+            this.Load(strWeightFileName);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="layers"></param>
         /// <param name="layerActivations"></param>
         public NeuralNetwork(int[] layers, ActivationFunctions[] layerActivations)

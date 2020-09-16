@@ -70,16 +70,16 @@ namespace TestPlatform.Games
             if (this.game.currentTurn == TicTacToe.Turn.x)
             {
                 //X is the current player
-                this.Transform(ref gameState, this.game.X, this.current);
-                this.Transform(ref gameState, this.game.O, this.other);
+                NNTools.Transform(ref gameState, this.game.X, this.current);
+                NNTools.Transform(ref gameState, this.game.O, this.other);
                 currentPlayer = this.playerX;
                 otherPlayer = this.playerO;
             }
             else
             {
                 //O is the current player
-                this.Transform(ref gameState, this.game.X, this.other);
-                this.Transform(ref gameState, this.game.O, this.current);
+                NNTools.Transform(ref gameState, this.game.X, this.other);
+                NNTools.Transform(ref gameState, this.game.O, this.current);
                 currentPlayer = this.playerO;
                 otherPlayer = this.playerX;
             }
@@ -124,19 +124,5 @@ namespace TestPlatform.Games
             }
         }
 
-
-        /// <summary>
-        /// replace each occurance of source in data with replaceValue
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="source"></param>
-        /// <param name="replaceValue"></param>
-        private void Transform(ref float[] data, float source, float replaceValue)
-        {
-            for(int i =0;i<data.Length;i++)
-            {
-                if (data[i] == source) data[i] = replaceValue;
-            }
-        }
     }
 }

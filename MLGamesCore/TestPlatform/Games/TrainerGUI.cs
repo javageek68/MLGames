@@ -152,5 +152,23 @@ namespace TestPlatform.Games
             this.txtStatus.AppendText(strMsg + "\r\n");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnTestHumanGame_Click(object sender, EventArgs e)
+        {
+            string strWeightFileIn = this.txtWeightFileIn.Text;
+            if (strWeightFileIn.Trim().Length == 0)
+            {
+                this.DisplayMsg("Select a weight file first");
+                return;
+            }
+            NeuralNetwork nn = new NeuralNetwork(strWeightFileIn);
+            TTTHumanVsAI humanGame = new TTTHumanVsAI();
+            humanGame.computerPlayer = nn;
+            humanGame.Show();
+        }
     }
 }

@@ -68,6 +68,7 @@
             this.btnEdit = new System.Windows.Forms.Button();
             this.ofdFiles = new System.Windows.Forms.OpenFileDialog();
             this.sfdFiles = new System.Windows.Forms.SaveFileDialog();
+            this.btnTestHumanGame = new System.Windows.Forms.Button();
             this.gbStats.SuspendLayout();
             this.gbGeneticParms.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -80,10 +81,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtStatus.BackColor = System.Drawing.Color.Black;
             this.txtStatus.ForeColor = System.Drawing.Color.White;
-            this.txtStatus.Location = new System.Drawing.Point(20, 219);
+            this.txtStatus.Location = new System.Drawing.Point(20, 249);
             this.txtStatus.Multiline = true;
             this.txtStatus.Name = "txtStatus";
-            this.txtStatus.Size = new System.Drawing.Size(763, 213);
+            this.txtStatus.Size = new System.Drawing.Size(763, 183);
             this.txtStatus.TabIndex = 3;
             // 
             // btnStart
@@ -94,7 +95,7 @@
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(102, 28);
             this.btnStart.TabIndex = 2;
-            this.btnStart.Text = "Start";
+            this.btnStart.Text = "Start Training";
             this.btnStart.UseVisualStyleBackColor = false;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
@@ -444,12 +445,25 @@
             this.btnEdit.UseVisualStyleBackColor = false;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
+            // btnTestHumanGame
+            // 
+            this.btnTestHumanGame.BackColor = System.Drawing.Color.Black;
+            this.btnTestHumanGame.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnTestHumanGame.Location = new System.Drawing.Point(20, 215);
+            this.btnTestHumanGame.Name = "btnTestHumanGame";
+            this.btnTestHumanGame.Size = new System.Drawing.Size(120, 28);
+            this.btnTestHumanGame.TabIndex = 21;
+            this.btnTestHumanGame.Text = "Test Human Game";
+            this.btnTestHumanGame.UseVisualStyleBackColor = false;
+            this.btnTestHumanGame.Click += new System.EventHandler(this.btnTestHumanGame_Click);
+            // 
             // TrainerGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnTestHumanGame);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gbGeneticParms);
             this.Controls.Add(this.gbStats);
@@ -510,5 +524,6 @@
         private System.Windows.Forms.SaveFileDialog sfdFiles;
         private System.Windows.Forms.TextBox txtSaveFrequency;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button btnTestHumanGame;
     }
 }
