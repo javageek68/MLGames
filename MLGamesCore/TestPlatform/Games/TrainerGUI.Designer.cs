@@ -69,6 +69,9 @@
             this.ofdFiles = new System.Windows.Forms.OpenFileDialog();
             this.sfdFiles = new System.Windows.Forms.SaveFileDialog();
             this.btnTestHumanGame = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.txtReportFolder = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.gbStats.SuspendLayout();
             this.gbGeneticParms.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -81,10 +84,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtStatus.BackColor = System.Drawing.Color.Black;
             this.txtStatus.ForeColor = System.Drawing.Color.White;
-            this.txtStatus.Location = new System.Drawing.Point(20, 249);
+            this.txtStatus.Location = new System.Drawing.Point(20, 317);
             this.txtStatus.Multiline = true;
             this.txtStatus.Name = "txtStatus";
-            this.txtStatus.Size = new System.Drawing.Size(763, 183);
+            this.txtStatus.Size = new System.Drawing.Size(763, 115);
             this.txtStatus.TabIndex = 3;
             // 
             // btnStart
@@ -255,6 +258,9 @@
             // 
             // gbGeneticParms
             // 
+            this.gbGeneticParms.Controls.Add(this.button1);
+            this.gbGeneticParms.Controls.Add(this.txtReportFolder);
+            this.gbGeneticParms.Controls.Add(this.label15);
             this.gbGeneticParms.Controls.Add(this.txtSaveFrequency);
             this.gbGeneticParms.Controls.Add(this.label14);
             this.gbGeneticParms.Controls.Add(this.btnWeightFileOut);
@@ -272,14 +278,14 @@
             this.gbGeneticParms.ForeColor = System.Drawing.Color.White;
             this.gbGeneticParms.Location = new System.Drawing.Point(138, 18);
             this.gbGeneticParms.Name = "gbGeneticParms";
-            this.gbGeneticParms.Size = new System.Drawing.Size(271, 173);
+            this.gbGeneticParms.Size = new System.Drawing.Size(271, 210);
             this.gbGeneticParms.TabIndex = 19;
             this.gbGeneticParms.TabStop = false;
             this.gbGeneticParms.Text = "Genetic Hyperparameters";
             // 
             // txtSaveFrequency
             // 
-            this.txtSaveFrequency.Location = new System.Drawing.Point(142, 139);
+            this.txtSaveFrequency.Location = new System.Drawing.Point(142, 169);
             this.txtSaveFrequency.Name = "txtSaveFrequency";
             this.txtSaveFrequency.Size = new System.Drawing.Size(86, 20);
             this.txtSaveFrequency.TabIndex = 29;
@@ -288,7 +294,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(18, 143);
+            this.label14.Location = new System.Drawing.Point(18, 173);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(85, 13);
             this.label14.TabIndex = 28;
@@ -449,13 +455,41 @@
             // 
             this.btnTestHumanGame.BackColor = System.Drawing.Color.Black;
             this.btnTestHumanGame.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnTestHumanGame.Location = new System.Drawing.Point(20, 215);
+            this.btnTestHumanGame.Location = new System.Drawing.Point(20, 265);
             this.btnTestHumanGame.Name = "btnTestHumanGame";
             this.btnTestHumanGame.Size = new System.Drawing.Size(120, 28);
             this.btnTestHumanGame.TabIndex = 21;
             this.btnTestHumanGame.Text = "Test Human Game";
             this.btnTestHumanGame.UseVisualStyleBackColor = false;
             this.btnTestHumanGame.Click += new System.EventHandler(this.btnTestHumanGame_Click);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Black;
+            this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.button1.Location = new System.Drawing.Point(234, 139);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(31, 21);
+            this.button1.TabIndex = 32;
+            this.button1.Text = "...";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
+            // txtReportFolder
+            // 
+            this.txtReportFolder.Location = new System.Drawing.Point(142, 139);
+            this.txtReportFolder.Name = "txtReportFolder";
+            this.txtReportFolder.Size = new System.Drawing.Size(86, 20);
+            this.txtReportFolder.TabIndex = 31;
+            this.txtReportFolder.Text = "D:\\Code\\UnityProjects\\MLGames\\Reports\\TicTacToe";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(18, 143);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(71, 13);
+            this.label15.TabIndex = 30;
+            this.label15.Text = "Report Folder";
             // 
             // TrainerGUI
             // 
@@ -525,5 +559,8 @@
         private System.Windows.Forms.TextBox txtSaveFrequency;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button btnTestHumanGame;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox txtReportFolder;
+        private System.Windows.Forms.Label label15;
     }
 }

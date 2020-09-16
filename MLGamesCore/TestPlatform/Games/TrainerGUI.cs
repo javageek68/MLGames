@@ -20,6 +20,7 @@ namespace TestPlatform.Games
         /// 
         /// </summary>
         Trainer trainer = null;
+        TTTReport report = null;
         
         /// <summary>
         /// 
@@ -100,10 +101,15 @@ namespace TestPlatform.Games
                 string strWeightFileIn = this.txtWeightFileIn.Text;
                 string strBaseWeightFileOut = this.txtWeightFileOut.Text;
                 int intSaveWeightsFrequency = int.Parse(this.txtSaveFrequency.Text);
+                string strReportFolder = this.txtReportFolder.Text;
 
                 //create the trainer
                 this.trainer = new Trainer(layers, activation, populationSize, mutationChance, mutationStrength, strWeightFileIn, strBaseWeightFileOut, intSaveWeightsFrequency);
-                
+
+                string strReportFile = string.Format("{0}/ReportFile.csv", strReportFolder);
+                this.report = new TTTReport(this.trainer, strReportFile);
+
+                this.report.StartReport();
                 //start the timer
                 this.tmrPace.Enabled = true;
             }
@@ -137,6 +143,9 @@ namespace TestPlatform.Games
                 this.lblWins.Text = this.trainer.Wins.ToString();
                 this.lblDraws.Text = this.trainer.Draws.ToString();
                 this.lblBadGames.Text = this.trainer.BadGames.ToString();
+                //update the report
+                this.report.Update();
+                //set the reward
                 this.trainer.Reward();
             }
 
