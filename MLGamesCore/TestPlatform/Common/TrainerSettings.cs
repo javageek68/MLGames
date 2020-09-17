@@ -79,5 +79,20 @@ namespace TestPlatform.Common
         {
             return (ActivationFunctions[])(object)StringUtils.ParseIntArray(this.Activations);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public string GetActivationNameList()
+        {
+            string strList = string.Empty;
+            ActivationFunctions[] activations = this.GetActications();
+            foreach(ActivationFunctions actFunction in activations)
+            {
+                strList += actFunction.ToString() + ",";
+            }
+            return strList;
+        }
     }
 }

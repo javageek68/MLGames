@@ -28,18 +28,9 @@ namespace TestPlatform.Games
 
         public Action<MessageTypes, string> OnTrainerMessage { get; set; }
 
-        private TrainerSettings settings = null;
-
-        //public int[] layers = new int[3] { 9, 18, 9 };
-        //public ActivationFunctions[] activation = new ActivationFunctions[2] { ActivationFunctions.tanh, ActivationFunctions.tanh };
+        public TrainerSettings settings { get; set; }
 
 
-        //public int populationSize = 100;
-        //public string WeightFileIn = string.Empty; // "TicTacToe.xml";
-        //public string WeightFileOut = string.Empty;
-        //public float MutationChance = 0.01f;
-        //public float MutationStrength = 0.5f;
-        //public int saveWeightsFrequency = -1;
 
         public bool GamesRunning = true;
 
