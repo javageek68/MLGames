@@ -77,11 +77,12 @@ namespace TestPlatform.Games
             for(int intLayer = 0; intLayer < layers.Length; intLayer++)
             {
                 int intLayerSize = layers[intLayer];
-                int intActFunction = 0;
+                int intActFunction = -1;
                 if (intLayer > 0) intActFunction = activationFunctions[intLayer - 1];
                 DataRow dataRow = this.dtNetwork.NewRow();
                 dataRow[this.strColSize] = intLayerSize;
-                dataRow[this.strColActivation] = intActFunction;
+                //add 1 to account for "none" being the first item in the dropdown list
+                dataRow[this.strColActivation] = intActFunction + 1;
                 this.dtNetwork.Rows.Add(dataRow);
             }
             
