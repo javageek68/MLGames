@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\IAgent.cs" Link="IAgent.cs" />
+    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\NeuralNetwork.cs" Link="NeuralNetwork.cs" />
+  </ItemGroup>
+
+</Project>

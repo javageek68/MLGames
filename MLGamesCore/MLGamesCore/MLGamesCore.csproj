@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\GeneticAlgorithm.cs" Link="GeneticAlgorithm.cs" />
+    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\IAgent.cs" Link="IAgent.cs" />
+    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\NeuralNetwork.cs" Link="NeuralNetwork.cs" />
+    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\NNSettings.cs" Link="NNSettings.cs" />
+    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Utilities\NNTools.cs" Link="NNTools.cs" />
+    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Utilities\SerializerTools.cs" Link="SerializerTools.cs" />
+  </ItemGroup>
+
+</Project>
