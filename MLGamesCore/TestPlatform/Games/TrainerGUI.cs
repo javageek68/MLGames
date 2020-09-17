@@ -193,6 +193,8 @@ namespace TestPlatform.Games
             {
                 if (this.tmrPace.Enabled == false)
                 {
+                    this.ClearDisplay();
+                    this.DisplayMsg("Started Training");
                     //start the run
                     this.StartTraining();
                 }
@@ -246,26 +248,62 @@ namespace TestPlatform.Games
         private void tmrPace_Tick(object sender, EventArgs e)
         {
             this.tmrPace.Enabled = false;
-            //play all turns of the generation
-            while (this.trainer.PlayTurn())
-            {
-                //generation being processed
-            }
-            if (this.trainer.GamesRunning == false)
-            {
-                this.lblGeneration.Text = this.trainer.Generation.ToString();
-                this.lblInvalidMoves.Text = this.trainer.InvalidMoves.ToString();
-                this.lblValidMoves.Text = this.trainer.ValidMoves.ToString();
-                this.lblWins.Text = this.trainer.Wins.ToString();
-                this.lblDraws.Text = this.trainer.Draws.ToString();
-                this.lblBadGames.Text = this.trainer.BadGames.ToString();
-                //update the report
-                this.report.Update();
-                //set the reward
-                this.trainer.Reward();
-            }
 
-            this.tmrPace.Enabled = true;
+            try
+            {
+                //play all turns of the generation
+                while (this.trainer.PlayTurn())
+                {
+                    //generation being processed
+                }
+                if (this.trainer.GamesRunning == false)
+                {
+                    this.lblGeneration.Text = this.trainer.Generation.ToString();
+                    this.lblInvalidMoves.Text = this.trainer.InvalidMoves.ToString();
+                    this.lblValidMoves.Text = this.trainer.ValidMoves.ToString();
+                    this.lblWins.Text = this.trainer.Wins.ToString();
+                    this.lblDraws.Text = this.trainer.Draws.ToString();
+                    this.lblBadGames.Text = this.trainer.BadGames.ToString();
+                    //update the report
+                    this.report.Update();
+                    //set the reward
+                    this.trainer.Reward();
+                }
+
+                this.tmrPace.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                this.DisplayMsg(ex.ToString());
+            }
+           
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnTestHumanGame_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string strWeightFileIn = this.txtWeightFileIn.Text;
+                if (strWeightFileIn.Trim().Length == 0)
+                {
+                    this.DisplayMsg("Select a weight file first");
+                    return;
+                }
+                NeuralNetwork nn = new NeuralNetwork(strWeightFileIn);
+                TTTHumanVsAI humanGame = new TTTHumanVsAI();
+                humanGame.computerPlayer = nn;
+                humanGame.Show();
+            }
+            catch (Exception ex)
+            {
+                this.DisplayMsg(ex.ToString());
+            }
         }
 
         /// <summary>
@@ -280,21 +318,9 @@ namespace TestPlatform.Games
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnTestHumanGame_Click(object sender, EventArgs e)
+        private void ClearDisplay()
         {
-            string strWeightFileIn = this.txtWeightFileIn.Text;
-            if (strWeightFileIn.Trim().Length == 0)
-            {
-                this.DisplayMsg("Select a weight file first");
-                return;
-            }
-            NeuralNetwork nn = new NeuralNetwork(strWeightFileIn);
-            TTTHumanVsAI humanGame = new TTTHumanVsAI();
-            humanGame.computerPlayer = nn;
-            humanGame.Show();
+            this.txtStatus.Text = string.Empty;
         }
-
     }
 }
