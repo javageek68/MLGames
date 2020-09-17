@@ -106,7 +106,7 @@ namespace TestPlatform.Games
                 //create the trainer
                 this.trainer = new Trainer(layers, activation, populationSize, mutationChance, mutationStrength, strWeightFileIn, strBaseWeightFileOut, intSaveWeightsFrequency);
 
-                string strReportFile = string.Format("{0}/ReportFile.csv", strReportFolder);
+                string strReportFile = string.Format("{0}/ReportFile{1:yyyyMMddhhmmss}.csv", strReportFolder, DateTime.Now);
                 this.report = new TTTReport(this.trainer, strReportFile);
 
                 this.report.StartReport();
