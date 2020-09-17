@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
+using TestPlatform.Common;
 
 namespace TestPlatform.Games
 {
@@ -61,6 +62,31 @@ namespace TestPlatform.Games
             //convert the lists to arrays
             layers = lstLayers.ToArray();
             activationFunctions = lstActivations.ToArray();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strLayers"></param>
+        /// <param name="strActivationFunctions"></param>
+        public void SetNetworkStructure(string strLayers, string strActivationFunctions)
+        {
+            int[] layers = StringUtils.ParseIntArray(strLayers);
+            int[] activationFunctions = StringUtils.ParseIntArray(strActivationFunctions);
+            this.CreateNetworkDataTable();
+            for(int intLayer = 0; intLayer < layers.Length; intLayer++)
+            {
+                int intLayerSize = layers[intLayer];
+                int intActFunction = 0;
+                if (intLayer > 0) intActFunction = activationFunctions[intLayer - 1];
+                DataRow dataRow = this.dtNetwork.NewRow();
+                dataRow[this.strColSize] = intLayerSize;
+                dataRow[this.strColActivation] = intActFunction;
+                this.dtNetwork.Rows.Add(dataRow);
+            }
+            
+            this.LoadGridData();
+            this.SetLayerNames();
         }
 
         private void CreateNetworkDataTable()

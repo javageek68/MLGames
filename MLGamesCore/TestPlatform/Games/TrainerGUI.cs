@@ -180,6 +180,7 @@ namespace TestPlatform.Games
 
             //show the network designer
             NetworkDesigner networkDesigner = new NetworkDesigner();
+            networkDesigner.SetNetworkStructure(this.txtLayers.Text, this.txtActivations.Text);
             if (networkDesigner.ShowDialog() == DialogResult.OK)
             {
                 //get the structure
