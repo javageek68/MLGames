@@ -48,6 +48,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.gbGeneticParms = new System.Windows.Forms.GroupBox();
+            this.txtTrainingReportFrequency = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.btnBrowseTrainingReportFolder = new System.Windows.Forms.Button();
+            this.txtReportFolder = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.txtSaveFrequency = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.btnWeightFileOut = new System.Windows.Forms.Button();
@@ -69,12 +74,15 @@
             this.ofdFiles = new System.Windows.Forms.OpenFileDialog();
             this.sfdFiles = new System.Windows.Forms.SaveFileDialog();
             this.btnTestHumanGame = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.txtReportFolder = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
+            this.fbdFolders = new System.Windows.Forms.FolderBrowserDialog();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbStats.SuspendLayout();
             this.gbGeneticParms.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtStatus
@@ -94,7 +102,7 @@
             // 
             this.btnStart.BackColor = System.Drawing.Color.Black;
             this.btnStart.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnStart.Location = new System.Drawing.Point(18, 18);
+            this.btnStart.Location = new System.Drawing.Point(18, 39);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(102, 28);
             this.btnStart.TabIndex = 2;
@@ -231,7 +239,7 @@
             this.gbStats.Controls.Add(this.lblWins);
             this.gbStats.Controls.Add(this.label7);
             this.gbStats.ForeColor = System.Drawing.Color.White;
-            this.gbStats.Location = new System.Drawing.Point(488, 18);
+            this.gbStats.Location = new System.Drawing.Point(488, 39);
             this.gbStats.Name = "gbStats";
             this.gbStats.Size = new System.Drawing.Size(295, 83);
             this.gbStats.TabIndex = 16;
@@ -241,7 +249,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 23);
+            this.label3.Location = new System.Drawing.Point(6, 23);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(88, 13);
             this.label3.TabIndex = 17;
@@ -250,7 +258,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(18, 46);
+            this.label8.Location = new System.Drawing.Point(6, 46);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(91, 13);
             this.label8.TabIndex = 18;
@@ -258,7 +266,9 @@
             // 
             // gbGeneticParms
             // 
-            this.gbGeneticParms.Controls.Add(this.button1);
+            this.gbGeneticParms.Controls.Add(this.txtTrainingReportFrequency);
+            this.gbGeneticParms.Controls.Add(this.label16);
+            this.gbGeneticParms.Controls.Add(this.btnBrowseTrainingReportFolder);
             this.gbGeneticParms.Controls.Add(this.txtReportFolder);
             this.gbGeneticParms.Controls.Add(this.label15);
             this.gbGeneticParms.Controls.Add(this.txtSaveFrequency);
@@ -276,16 +286,62 @@
             this.gbGeneticParms.Controls.Add(this.label8);
             this.gbGeneticParms.Controls.Add(this.label3);
             this.gbGeneticParms.ForeColor = System.Drawing.Color.White;
-            this.gbGeneticParms.Location = new System.Drawing.Point(138, 18);
+            this.gbGeneticParms.Location = new System.Drawing.Point(176, 39);
             this.gbGeneticParms.Name = "gbGeneticParms";
-            this.gbGeneticParms.Size = new System.Drawing.Size(271, 210);
+            this.gbGeneticParms.Size = new System.Drawing.Size(271, 227);
             this.gbGeneticParms.TabIndex = 19;
             this.gbGeneticParms.TabStop = false;
             this.gbGeneticParms.Text = "Genetic Hyperparameters";
             // 
+            // txtTrainingReportFrequency
+            // 
+            this.txtTrainingReportFrequency.Location = new System.Drawing.Point(142, 181);
+            this.txtTrainingReportFrequency.Name = "txtTrainingReportFrequency";
+            this.txtTrainingReportFrequency.Size = new System.Drawing.Size(86, 20);
+            this.txtTrainingReportFrequency.TabIndex = 34;
+            this.txtTrainingReportFrequency.Text = "1000";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(6, 185);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(133, 13);
+            this.label16.TabIndex = 33;
+            this.label16.Text = "Training Report Frequency";
+            // 
+            // btnBrowseTrainingReportFolder
+            // 
+            this.btnBrowseTrainingReportFolder.BackColor = System.Drawing.Color.Black;
+            this.btnBrowseTrainingReportFolder.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnBrowseTrainingReportFolder.Location = new System.Drawing.Point(234, 159);
+            this.btnBrowseTrainingReportFolder.Name = "btnBrowseTrainingReportFolder";
+            this.btnBrowseTrainingReportFolder.Size = new System.Drawing.Size(31, 21);
+            this.btnBrowseTrainingReportFolder.TabIndex = 32;
+            this.btnBrowseTrainingReportFolder.Text = "...";
+            this.btnBrowseTrainingReportFolder.UseVisualStyleBackColor = false;
+            this.btnBrowseTrainingReportFolder.Click += new System.EventHandler(this.btnBrowseTrainingReportFolder_Click);
+            // 
+            // txtReportFolder
+            // 
+            this.txtReportFolder.Location = new System.Drawing.Point(142, 159);
+            this.txtReportFolder.Name = "txtReportFolder";
+            this.txtReportFolder.Size = new System.Drawing.Size(86, 20);
+            this.txtReportFolder.TabIndex = 31;
+            this.txtReportFolder.Text = "D:\\Code\\UnityProjects\\MLGames\\Reports\\TicTacToe";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 163);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(71, 13);
+            this.label15.TabIndex = 30;
+            this.label15.Text = "Report Folder";
+            // 
             // txtSaveFrequency
             // 
-            this.txtSaveFrequency.Location = new System.Drawing.Point(142, 169);
+            this.txtSaveFrequency.Location = new System.Drawing.Point(142, 137);
             this.txtSaveFrequency.Name = "txtSaveFrequency";
             this.txtSaveFrequency.Size = new System.Drawing.Size(86, 20);
             this.txtSaveFrequency.TabIndex = 29;
@@ -294,11 +350,11 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(18, 173);
+            this.label14.Location = new System.Drawing.Point(6, 141);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(85, 13);
+            this.label14.Size = new System.Drawing.Size(127, 13);
             this.label14.TabIndex = 28;
-            this.label14.Text = "Save Frequency";
+            this.label14.Text = "Save Weights Frequency";
             // 
             // btnWeightFileOut
             // 
@@ -342,7 +398,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(18, 117);
+            this.label13.Location = new System.Drawing.Point(6, 117);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(107, 13);
             this.label13.TabIndex = 24;
@@ -351,7 +407,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(18, 92);
+            this.label12.Location = new System.Drawing.Point(6, 92);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(72, 13);
             this.label12.TabIndex = 23;
@@ -368,7 +424,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(18, 69);
+            this.label11.Location = new System.Drawing.Point(6, 69);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(80, 13);
             this.label11.TabIndex = 21;
@@ -398,7 +454,7 @@
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.btnEdit);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(488, 107);
+            this.groupBox1.Location = new System.Drawing.Point(488, 134);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(276, 66);
             this.groupBox1.TabIndex = 20;
@@ -463,33 +519,38 @@
             this.btnTestHumanGame.UseVisualStyleBackColor = false;
             this.btnTestHumanGame.Click += new System.EventHandler(this.btnTestHumanGame_Click);
             // 
-            // button1
+            // menuStrip1
             // 
-            this.button1.BackColor = System.Drawing.Color.Black;
-            this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.button1.Location = new System.Drawing.Point(234, 139);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(31, 21);
-            this.button1.TabIndex = 32;
-            this.button1.Text = "...";
-            this.button1.UseVisualStyleBackColor = false;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.TabIndex = 22;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // txtReportFolder
+            // fileToolStripMenuItem
             // 
-            this.txtReportFolder.Location = new System.Drawing.Point(142, 139);
-            this.txtReportFolder.Name = "txtReportFolder";
-            this.txtReportFolder.Size = new System.Drawing.Size(86, 20);
-            this.txtReportFolder.TabIndex = 31;
-            this.txtReportFolder.Text = "D:\\Code\\UnityProjects\\MLGames\\Reports\\TicTacToe";
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadToolStripMenuItem,
+            this.saveToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
             // 
-            // label15
+            // loadToolStripMenuItem
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(18, 143);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(71, 13);
-            this.label15.TabIndex = 30;
-            this.label15.Text = "Report Folder";
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // TrainerGUI
             // 
@@ -503,6 +564,7 @@
             this.Controls.Add(this.gbStats);
             this.Controls.Add(this.txtStatus);
             this.Controls.Add(this.btnStart);
+            this.Controls.Add(this.menuStrip1);
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "TrainerGUI";
             this.Text = "TrainerGUI";
@@ -512,6 +574,8 @@
             this.gbGeneticParms.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -559,8 +623,15 @@
         private System.Windows.Forms.TextBox txtSaveFrequency;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button btnTestHumanGame;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnBrowseTrainingReportFolder;
         private System.Windows.Forms.TextBox txtReportFolder;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox txtTrainingReportFrequency;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.FolderBrowserDialog fbdFolders;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TestPlatform.Common;
 using static MLGames.NNSettings;
 
 namespace TestPlatform.Games
@@ -27,15 +28,19 @@ namespace TestPlatform.Games
 
         public Action<MessageTypes, string> OnTrainerMessage { get; set; }
 
-        public int[] layers = new int[3] { 9, 18, 9 };
-        public ActivationFunctions[] activation = new ActivationFunctions[2] { ActivationFunctions.tanh, ActivationFunctions.tanh };
+        private TrainerSettings settings = null;
 
-        public int populationSize = 100;
-        public string WeightFileIn = string.Empty; // "TicTacToe.xml";
-        public string WeightFileOut = string.Empty;
-        public float MutationChance = 0.01f;
-        public float MutationStrength = 0.5f;
-        public int saveWeightsFrequency = -1;
+        //public int[] layers = new int[3] { 9, 18, 9 };
+        //public ActivationFunctions[] activation = new ActivationFunctions[2] { ActivationFunctions.tanh, ActivationFunctions.tanh };
+
+
+        //public int populationSize = 100;
+        //public string WeightFileIn = string.Empty; // "TicTacToe.xml";
+        //public string WeightFileOut = string.Empty;
+        //public float MutationChance = 0.01f;
+        //public float MutationStrength = 0.5f;
+        //public int saveWeightsFrequency = -1;
+
         public bool GamesRunning = true;
 
         //stats
@@ -50,36 +55,24 @@ namespace TestPlatform.Games
         private List<TTTGame> games = new List<TTTGame>();
         private NeuralNetwork startingNetwork;
 
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="layers"></param>
-        /// <param name="activation"></param>
-        /// <param name="populationSize"></param>
-        /// <param name="mutationChance"></param>
-        /// <param name="mutationStrength"></param>
-        /// <param name="strWeightFileIn"></param>
-        /// <param name="strBaseWeightFileOut"></param>
-        /// <param name="intSaveWeightsFrequency"></param>
-        public Trainer(int[] layers, ActivationFunctions[] activation, int populationSize, float mutationChance, float mutationStrength, string strWeightFileIn, string strBaseWeightFileOut, int intSaveWeightsFrequency)
+        /// <param name="trainerSettings"></param>
+        public Trainer(TrainerSettings trainerSettings)
         {
-            this.layers = layers;
-            this.activation = activation;
-            this.populationSize = populationSize;
-            this.MutationChance = mutationChance;
-            this.MutationStrength = mutationStrength;
-            this.WeightFileIn = strWeightFileIn;
-            this.WeightFileOut = strBaseWeightFileOut;
-            this.saveWeightsFrequency = intSaveWeightsFrequency;
-            if (strWeightFileIn.Trim().Length > 0) this.Load(strWeightFileIn);
+            this.settings = trainerSettings;
+            if (this.settings.WeightFileIn.Trim().Length > 0) this.Load(this.settings.WeightFileIn);
             this.InitTraining();
         }
 
         private void InitTraining()
         {
-            
+
             //create an instance of the genetic algorigthm
-            this.geneticAlgorithm = new GeneticAlgorithm(this.layers, this.activation, this.populationSize, this.MutationChance, this.MutationStrength, this.startingNetwork);
+            this.geneticAlgorithm = new GeneticAlgorithm(this.settings.GetLayers(), this.settings.GetActications(), this.settings.PopulationSize, this.settings.MutationChance, this.settings.MutionStrength, this.startingNetwork);
+            //this.geneticAlgorithm = new GeneticAlgorithm(this.layers, this.activation, this.populationSize, this.MutationChance, this.MutationStrength, this.startingNetwork);
             this.geneticAlgorithm.Start();
             this.AssignGames();
         }
@@ -92,7 +85,7 @@ namespace TestPlatform.Games
         public void Load(string strFileName)
         {
             string strContent = System.IO.File.ReadAllText(strFileName);
-            NeuralNetwork nn = new NeuralNetwork(this.layers, this.activation);
+            NeuralNetwork nn = new NeuralNetwork(this.settings.GetLayers(), this.settings.GetActications());
             nn.Deserialize(strContent);
             this.startingNetwork = nn;
         }
@@ -100,7 +93,7 @@ namespace TestPlatform.Games
         public void Save()
         {
             //get the output file name
-            string strFileName = string.Format("{0}_{1:0000000}_{2:yyyyMMddhhmmss}.wght", this.WeightFileOut, this.Generation, DateTime.Now);
+            string strFileName = string.Format("{0}_{1:0000000}_{2:yyyyMMddhhmmss}.wght", this.settings.WeightFileOutBase, this.Generation, DateTime.Now);
             //get the best network for ga
             NeuralNetwork nn = this.geneticAlgorithm.RequestBestNetwork();
             //serialize the network
@@ -116,7 +109,7 @@ namespace TestPlatform.Games
         {
             this.games = new List<TTTGame>();
             //loop through all of the NNs
-            for (int i = 0; i < this.populationSize; i += 2)
+            for (int i = 0; i < this.settings.PopulationSize; i += 2)
             {
                 //assign the NN to a game
                 NeuralNetwork player1 = this.geneticAlgorithm.RequestNetwork(i);
@@ -177,7 +170,7 @@ namespace TestPlatform.Games
             this.geneticAlgorithm.EvolveNetworks();
             this.Generation++;
             //save the weight files every saveWeightsFrequency generations
-            if (this.Generation % this.saveWeightsFrequency == 0) this.Save();
+            if (this.Generation % this.settings.SaveWeightFileFrequency == 0) this.Save();
             this.AssignGames();
         }
 

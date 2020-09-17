@@ -37,9 +37,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dvGrid = new System.Windows.Forms.DataGridView();
-            this.LayerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Size = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Activation = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.cmsMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuMoveLayerUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMoveLayerDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,6 +49,9 @@
             this.sfdFiles = new System.Windows.Forms.SaveFileDialog();
             this.btnAccept = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.LayerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LayerSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Activation = new System.Windows.Forms.DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dvGrid)).BeginInit();
             this.cmsMenu.SuspendLayout();
             this.mnuMain.SuspendLayout();
@@ -78,7 +78,7 @@
             this.dvGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dvGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.LayerName,
-            this.Size,
+            this.LayerSize,
             this.Activation});
             this.dvGrid.ContextMenuStrip = this.cmsMenu;
             this.dvGrid.GridColor = System.Drawing.Color.Gray;
@@ -103,34 +103,6 @@
             this.dvGrid.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.DimGray;
             this.dvGrid.Size = new System.Drawing.Size(443, 169);
             this.dvGrid.TabIndex = 3;
-            // 
-            // LayerName
-            // 
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Silver;
-            this.LayerName.DefaultCellStyle = dataGridViewCellStyle3;
-            this.LayerName.HeaderText = "Layer Name";
-            this.LayerName.Name = "LayerName";
-            this.LayerName.ReadOnly = true;
-            // 
-            // Size
-            // 
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Silver;
-            this.Size.DefaultCellStyle = dataGridViewCellStyle4;
-            this.Size.HeaderText = "Size";
-            this.Size.Name = "Size";
-            // 
-            // Activation
-            // 
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Silver;
-            this.Activation.DefaultCellStyle = dataGridViewCellStyle5;
-            this.Activation.HeaderText = "Activation";
-            this.Activation.Name = "Activation";
             // 
             // cmsMenu
             // 
@@ -184,14 +156,14 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.openToolStripMenuItem.Text = "Load";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -221,6 +193,34 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = false;
             // 
+            // LayerName
+            // 
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Silver;
+            this.LayerName.DefaultCellStyle = dataGridViewCellStyle3;
+            this.LayerName.HeaderText = "Layer Name";
+            this.LayerName.Name = "LayerName";
+            this.LayerName.ReadOnly = true;
+            // 
+            // LayerSize
+            // 
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Silver;
+            this.LayerSize.DefaultCellStyle = dataGridViewCellStyle4;
+            this.LayerSize.HeaderText = "Size";
+            this.LayerSize.Name = "LayerSize";
+            // 
+            // Activation
+            // 
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.Silver;
+            this.Activation.DefaultCellStyle = dataGridViewCellStyle5;
+            this.Activation.HeaderText = "Activation";
+            this.Activation.Name = "Activation";
+            // 
             // NetworkDesigner
             // 
             this.AcceptButton = this.btnAccept;
@@ -248,9 +248,6 @@
 
         #endregion
         private System.Windows.Forms.DataGridView dvGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LayerName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Size;
-        private System.Windows.Forms.DataGridViewComboBoxColumn Activation;
         private System.Windows.Forms.ContextMenuStrip cmsMenu;
         private System.Windows.Forms.ToolStripMenuItem mnuMoveLayerUpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuMoveLayerDownToolStripMenuItem;
@@ -263,5 +260,8 @@
         private System.Windows.Forms.SaveFileDialog sfdFiles;
         private System.Windows.Forms.Button btnAccept;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LayerName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LayerSize;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Activation;
     }
 }

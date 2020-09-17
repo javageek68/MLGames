@@ -1,24 +1,19 @@
 ﻿using MLGames;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TestPlatform.Games
 {
-    
+
     public partial class NetworkDesigner : Form
     {
         string strTableName = "NetworkDefinitionTable";
         string strActivationNone = "none";
 
         string strColLayerName = "LayerName";
-        string strColSize = "Size";
+        string strColSize = "LayerSize";
         string strColActivation = "Activation";
         DataTable dtNetwork = null;
 

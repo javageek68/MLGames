@@ -32,7 +32,6 @@ namespace TestPlatform.Games
         private float ValidMoveScore = 0.1f;
         private float WonScore = 1f;
         private float LostScore = -1f;
-        private float DrawScore = 0;
 
         private float current = 1;
         private float other = 0.5f;

@@ -21,6 +21,7 @@ namespace TestPlatform.Games
         /// </summary>
         Trainer trainer = null;
         TTTReport report = null;
+        TrainerSettings trainerSettings = new TrainerSettings();
         
         /// <summary>
         /// 
@@ -28,6 +29,90 @@ namespace TestPlatform.Games
         public TrainerGUI()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.ofdFiles.Title = "Select ML Project - File Selection";
+                this.ofdFiles.Filter = "ML Project File (*.MLGame)|*.MLGame|All Files (*.*)|*.*";
+                if (this.ofdFiles.ShowDialog() == DialogResult.OK)
+                {
+                    string strFileName = this.ofdFiles.FileName;
+                    string strContents = System.IO.File.ReadAllText(strFileName);
+                    this.trainerSettings = SerializerTools.DeserializeItem<TrainerSettings>(strContents);
+                    this.PopulateUI();
+                }
+            }
+            catch (Exception ex)
+            {
+                this.DisplayMsg(ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.sfdFiles.Title = "Select ML Project File - File Selection";
+                this.sfdFiles.Filter = "ML Project File (*.MLGame)|*.MLGame|All Files (*.*)|*.*";
+                if (this.sfdFiles.ShowDialog() == DialogResult.OK)
+                {
+                    this.PopulateSettings();
+                    string strFileName = this.sfdFiles.FileName;
+                    string strContents = SerializerTools.SerializeItem<TrainerSettings>(this.trainerSettings);
+                    System.IO.File.WriteAllText(strFileName, strContents);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.DisplayMsg(ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void PopulateUI()
+        {
+            this.txtActivations.Text = this.trainerSettings.Activations;
+            this.txtLayers.Text = this.trainerSettings.Layers;
+            this.txtMutationChance.Text = this.trainerSettings.MutationChance.ToString();
+            this.txtMutationStrength.Text = this.trainerSettings.MutionStrength.ToString();
+            this.txtPopulationSize.Text = this.trainerSettings.PopulationSize.ToString();
+            this.txtReportFolder.Text = this.trainerSettings.ReportFolder;
+            this.txtSaveFrequency.Text = this.trainerSettings.SaveWeightFileFrequency.ToString();
+            this.txtTrainingReportFrequency.Text = this.trainerSettings.WriteToReportFrequency.ToString();
+            this.txtWeightFileIn.Text = this.trainerSettings.WeightFileIn;
+            this.txtWeightFileOut.Text = this.trainerSettings.WeightFileOutBase;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void PopulateSettings()
+        {
+            this.trainerSettings.Layers = this.txtLayers.Text;
+            this.trainerSettings.Activations = this.txtActivations.Text;
+            this.trainerSettings.PopulationSize = int.Parse(this.txtPopulationSize.Text);
+            this.trainerSettings.MutationChance = float.Parse(this.txtMutationChance.Text);
+            this.trainerSettings.MutionStrength = float.Parse(this.txtMutationStrength.Text);
+            this.trainerSettings.WeightFileIn = this.txtWeightFileIn.Text;
+            this.trainerSettings.WeightFileOutBase = this.txtWeightFileOut.Text;
+            this.trainerSettings.SaveWeightFileFrequency = int.Parse(this.txtSaveFrequency.Text);
+            this.trainerSettings.ReportFolder = this.txtReportFolder.Text;
+            this.trainerSettings.WriteToReportFrequency = int.Parse(this.txtTrainingReportFrequency.Text);
         }
 
         /// <summary>
@@ -65,6 +150,20 @@ namespace TestPlatform.Games
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        private void btnBrowseTrainingReportFolder_Click(object sender, EventArgs e)
+        {
+            this.fbdFolders.Description = "Select Training Report Folder";
+            if (this.fbdFolders.ShowDialog() == DialogResult.OK)
+            {
+                this.txtReportFolder.Text = this.fbdFolders.SelectedPath;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnEdit_Click(object sender, EventArgs e)
         {
             int[] layers = new int[0];
@@ -92,34 +191,51 @@ namespace TestPlatform.Games
         {
             try
             {
-                //get input from the ui
-                int[] layers = StringUtils.ParseIntArray(this.txtLayers.Text);
-                ActivationFunctions[] activation = (ActivationFunctions[])(object)StringUtils.ParseIntArray(this.txtActivations.Text);
-                int populationSize = int.Parse(this.txtPopulationSize.Text);
-                float mutationChance = float.Parse(this.txtMutationChance.Text);
-                float mutationStrength = float.Parse(this.txtMutationStrength.Text);
-                string strWeightFileIn = this.txtWeightFileIn.Text;
-                string strBaseWeightFileOut = this.txtWeightFileOut.Text;
-                int intSaveWeightsFrequency = int.Parse(this.txtSaveFrequency.Text);
-                string strReportFolder = this.txtReportFolder.Text;
-
-                //create the trainer
-                this.trainer = new Trainer(layers, activation, populationSize, mutationChance, mutationStrength, strWeightFileIn, strBaseWeightFileOut, intSaveWeightsFrequency);
-
-                string strReportFile = string.Format("{0}/ReportFile{1:yyyyMMddhhmmss}.csv", strReportFolder, DateTime.Now);
-                this.report = new TTTReport(this.trainer, strReportFile);
-
-                this.report.StartReport();
-                //start the timer
-                this.tmrPace.Enabled = true;
+                if (this.tmrPace.Enabled == false)
+                {
+                    //start the run
+                    this.StartTraining();
+                }
+                else
+                {
+                    //stop the run
+                    this.StopTraining();
+                }
+      
             }
             catch (Exception ex)
             {
                 this.DisplayMsg(ex.ToString());
             }
+        }
 
- 
+        /// <summary>
+        /// 
+        /// </summary>
+        private void StartTraining()
+        {
 
+            //get input from the ui
+            this.PopulateSettings();
+
+            //create the trainer
+            this.trainer = new Trainer(this.trainerSettings);
+
+            string strReportFile = string.Format("{0}/ReportFile{1:yyyyMMddhhmmss}.csv", this.trainerSettings.ReportFolder, DateTime.Now);
+            this.report = new TTTReport(this.trainer, strReportFile);
+
+            this.report.StartReport();
+            //start the timer
+            this.tmrPace.Enabled = true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void StopTraining()
+        {
+            this.tmrPace.Enabled = false;
+            this.DisplayMsg("Stopped");
         }
 
         /// <summary>
@@ -179,5 +295,6 @@ namespace TestPlatform.Games
             humanGame.computerPlayer = nn;
             humanGame.Show();
         }
+
     }
 }
