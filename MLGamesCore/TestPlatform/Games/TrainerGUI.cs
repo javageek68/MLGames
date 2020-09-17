@@ -19,9 +19,17 @@ namespace TestPlatform.Games
         /// <summary>
         /// 
         /// </summary>
-        Trainer trainer = null;
-        TTTReport report = null;
-        TrainerSettings trainerSettings = new TrainerSettings();
+        private Trainer trainer = null;
+        private TTTReport report = null;
+        private TrainerSettings trainerSettings = new TrainerSettings();
+        private int intMaxSmootherQueueSize = 100;
+        private Smoother smoother = null;
+
+        //constants
+        private string strBadGames = "Bad";
+        private string strWonGames = "Won";
+        private string strValidMoves = "Valid";
+        private string strInvalidMoves = "Invalid";
         
         /// <summary>
         /// 
@@ -29,6 +37,7 @@ namespace TestPlatform.Games
         public TrainerGUI()
         {
             InitializeComponent();
+            smoother = new Smoother(intMaxSmootherQueueSize);
         }
 
         /// <summary>
@@ -259,11 +268,11 @@ namespace TestPlatform.Games
                 if (this.trainer.GamesRunning == false)
                 {
                     this.lblGeneration.Text = this.trainer.Generation.ToString();
-                    this.lblInvalidMoves.Text = this.trainer.InvalidMoves.ToString();
-                    this.lblValidMoves.Text = this.trainer.ValidMoves.ToString();
-                    this.lblWins.Text = this.trainer.Wins.ToString();
+                    this.lblInvalidMoves.Text = this.smoother.GetValue(this.strInvalidMoves, this.trainer.InvalidMoves).ToString();
+                    this.lblValidMoves.Text = this.smoother.GetValue(this.strValidMoves, this.trainer.ValidMoves).ToString();
+                    this.lblWins.Text = this.smoother.GetValue(this.strWonGames, this.trainer.Wins).ToString();
                     this.lblDraws.Text = this.trainer.Draws.ToString();
-                    this.lblBadGames.Text = this.trainer.BadGames.ToString();
+                    this.lblBadGames.Text = this.smoother.GetValue(this.strBadGames, this.trainer.BadGames).ToString();
                     //update the report
                     this.report.Update();
                     //set the reward
