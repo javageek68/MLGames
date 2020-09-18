@@ -170,7 +170,7 @@ namespace TestPlatform.Games
         /// </summary>
         /// <param name="messageType"></param>
         /// <param name="strMsg"></param>
-        private void Log(MessageTypes messageType, string strMsg)
+        private void SendMessageToHost(MessageTypes messageType, string strMsg)
         {
             if (this.OnTrainerMessage != null) this.OnTrainerMessage.Invoke(messageType, strMsg);
         }

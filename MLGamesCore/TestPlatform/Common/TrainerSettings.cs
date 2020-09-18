@@ -59,6 +59,10 @@ namespace TestPlatform.Common
         /// 
         /// </summary>
         public int WriteToReportFrequency { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int MaxGenerations { get; set; }
 
         /// <summary>
         /// 

@@ -79,6 +79,8 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtMaxGenerations = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.gbStats.SuspendLayout();
             this.gbGeneticParms.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -266,6 +268,8 @@
             // 
             // gbGeneticParms
             // 
+            this.gbGeneticParms.Controls.Add(this.txtMaxGenerations);
+            this.gbGeneticParms.Controls.Add(this.label17);
             this.gbGeneticParms.Controls.Add(this.txtTrainingReportFrequency);
             this.gbGeneticParms.Controls.Add(this.label16);
             this.gbGeneticParms.Controls.Add(this.btnBrowseTrainingReportFolder);
@@ -288,7 +292,7 @@
             this.gbGeneticParms.ForeColor = System.Drawing.Color.White;
             this.gbGeneticParms.Location = new System.Drawing.Point(176, 39);
             this.gbGeneticParms.Name = "gbGeneticParms";
-            this.gbGeneticParms.Size = new System.Drawing.Size(271, 227);
+            this.gbGeneticParms.Size = new System.Drawing.Size(271, 243);
             this.gbGeneticParms.TabIndex = 19;
             this.gbGeneticParms.TabStop = false;
             this.gbGeneticParms.Text = "Genetic Hyperparameters";
@@ -541,16 +545,33 @@
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // txtMaxGenerations
+            // 
+            this.txtMaxGenerations.Location = new System.Drawing.Point(142, 204);
+            this.txtMaxGenerations.Name = "txtMaxGenerations";
+            this.txtMaxGenerations.Size = new System.Drawing.Size(86, 20);
+            this.txtMaxGenerations.TabIndex = 36;
+            this.txtMaxGenerations.Text = "100000";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(6, 208);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(87, 13);
+            this.label17.TabIndex = 35;
+            this.label17.Text = "Max Generations";
             // 
             // TrainerGUI
             // 
@@ -633,5 +654,7 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.TextBox txtMaxGenerations;
+        private System.Windows.Forms.Label label17;
     }
 }

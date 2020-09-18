@@ -97,6 +97,7 @@ namespace TestPlatform.Games
         {
             this.txtActivations.Text = this.trainerSettings.Activations;
             this.txtLayers.Text = this.trainerSettings.Layers;
+            this.txtMaxGenerations.Text = this.trainerSettings.MaxGenerations.ToString();
             this.txtMutationChance.Text = this.trainerSettings.MutationChance.ToString();
             this.txtMutationStrength.Text = this.trainerSettings.MutionStrength.ToString();
             this.txtPopulationSize.Text = this.trainerSettings.PopulationSize.ToString();
@@ -115,6 +116,7 @@ namespace TestPlatform.Games
             this.trainerSettings.Layers = this.txtLayers.Text;
             this.trainerSettings.Activations = this.txtActivations.Text;
             this.trainerSettings.PopulationSize = int.Parse(this.txtPopulationSize.Text);
+            this.trainerSettings.MaxGenerations = int.Parse(this.txtMaxGenerations.Text);
             this.trainerSettings.MutationChance = float.Parse(this.txtMutationChance.Text);
             this.trainerSettings.MutionStrength = float.Parse(this.txtMutationStrength.Text);
             this.trainerSettings.WeightFileIn = this.txtWeightFileIn.Text;
@@ -280,7 +282,17 @@ namespace TestPlatform.Games
                     this.trainer.Reward();
                 }
 
-                this.tmrPace.Enabled = true;
+                if (this.trainer.settings.MaxGenerations < this.trainer.Generation)
+                {
+                    this.tmrPace.Enabled = false;
+                    this.DisplayMsg("Training complete");
+                }
+                else
+                {
+                    this.tmrPace.Enabled = true;
+                }
+
+                
             }
             catch (Exception ex)
             {
