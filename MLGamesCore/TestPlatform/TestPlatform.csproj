@@ -49,28 +49,28 @@
     <Compile Include="Common\Smoother.cs" />
     <Compile Include="Common\TrainerSettings.cs" />
     <Compile Include="Common\StringUtils.cs" />
-    <Compile Include="Games\NetworkDesigner.cs">
+    <Compile Include="Common\NetworkDesigner.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Games\NetworkDesigner.Designer.cs">
+    <Compile Include="Common\NetworkDesigner.Designer.cs">
       <DependentUpon>NetworkDesigner.cs</DependentUpon>
     </Compile>
-    <Compile Include="Games\TicTacToe.cs" />
-    <Compile Include="Games\Trainer.cs" />
-    <Compile Include="Games\TrainerGUI.cs">
+    <Compile Include="Games\TicTacToe\TicTacToe.cs" />
+    <Compile Include="Games\TicTacToe\Trainer.cs" />
+    <Compile Include="Common\TrainerGUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Games\TrainerGUI.Designer.cs">
+    <Compile Include="Common\TrainerGUI.Designer.cs">
       <DependentUpon>TrainerGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Games\TTTGame.cs" />
-    <Compile Include="Games\TTTHumanVsAI.cs">
+    <Compile Include="Games\TicTacToe\TTTGame.cs" />
+    <Compile Include="Games\TicTacToe\TTTHumanVsAI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Games\TTTHumanVsAI.Designer.cs">
+    <Compile Include="Games\TicTacToe\TTTHumanVsAI.Designer.cs">
       <DependentUpon>TTTHumanVsAI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Games\TTTReport.cs" />
+    <Compile Include="Games\TicTacToe\TTTReport.cs" />
     <Compile Include="NetTester.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,13 +79,13 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Games\NetworkDesigner.resx">
+    <EmbeddedResource Include="Common\NetworkDesigner.resx">
       <DependentUpon>NetworkDesigner.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Games\TrainerGUI.resx">
+    <EmbeddedResource Include="Common\TrainerGUI.resx">
       <DependentUpon>TrainerGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Games\TTTHumanVsAI.resx">
+    <EmbeddedResource Include="Games\TicTacToe\TTTHumanVsAI.resx">
       <DependentUpon>TTTHumanVsAI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NetTester.resx">
