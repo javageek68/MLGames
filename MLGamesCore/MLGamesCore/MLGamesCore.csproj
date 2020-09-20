@@ -5,12 +5,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Common\Smoother.cs" Link="Common\Smoother.cs" />
+    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Common\StringUtils.cs" Link="Common\StringUtils.cs" />
+    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Common\TrainerSettings.cs" Link="Common\TrainerSettings.cs" />
+    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Games\TicTacToe\TicTacToe.cs" Link="Games\TicTacToe\TicTacToe.cs" />
+    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Games\TicTacToe\Trainer.cs" Link="Games\TicTacToe\Trainer.cs" />
+    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Games\TicTacToe\TTTGame.cs" Link="Games\TicTacToe\TTTGame.cs" />
+    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Games\TicTacToe\TTTReport.cs" Link="Games\TicTacToe\TTTReport.cs" />
     <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\GeneticAlgorithm.cs" Link="GeneticAlgorithm.cs" />
     <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\IAgent.cs" Link="IAgent.cs" />
     <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\NeuralNetwork.cs" Link="NeuralNetwork.cs" />
     <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\NNSettings.cs" Link="NNSettings.cs" />
     <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Utilities\NNTools.cs" Link="NNTools.cs" />
     <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Utilities\SerializerTools.cs" Link="SerializerTools.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Games\TicTacToe\" />
+    <Folder Include="Common\" />
   </ItemGroup>
 
 </Project>
