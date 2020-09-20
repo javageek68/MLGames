@@ -26,7 +26,7 @@ namespace TestPlatform.Games
 
 
 
-        public bool GamesRunning = true;
+        public bool GenerationComplete = true;
 
         //stats
         public int ValidMoves = 0;
@@ -141,7 +141,8 @@ namespace TestPlatform.Games
                 this.InvalidMoves += game.InvalidMoves;
             }
             //note if any games are still running
-            this.GamesRunning = blnFoundGameRunning;
+            //if there are no games running, then the generation is complete
+            this.GenerationComplete = !blnFoundGameRunning;
             if (!blnFoundGameRunning)
             {
                 //all of the games have finished.

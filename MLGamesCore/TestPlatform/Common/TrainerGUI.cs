@@ -261,7 +261,7 @@ namespace TestPlatform.Games
                 {
                     //generation being processed
                 }
-                if (this.trainer.GamesRunning == false)
+                if (this.trainer.GenerationComplete)
                 {
                     this.lblGeneration.Text = this.trainer.Generation.ToString();
                     this.lblInvalidMoves.Text = this.smoother.GetValue(this.strInvalidMoves, this.trainer.InvalidMoves).ToString();

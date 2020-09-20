@@ -347,7 +347,7 @@
             this.txtTrainingReportFrequency.Name = "txtTrainingReportFrequency";
             this.txtTrainingReportFrequency.Size = new System.Drawing.Size(113, 22);
             this.txtTrainingReportFrequency.TabIndex = 34;
-            this.txtTrainingReportFrequency.Text = "1";
+            this.txtTrainingReportFrequency.Text = "100";
             // 
             // label16
             // 
