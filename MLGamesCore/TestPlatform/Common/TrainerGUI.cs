@@ -1,16 +1,7 @@
 ﻿using MLGames;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TestPlatform.Common;
-using static MLGames.NNSettings;
 
 namespace TestPlatform.Games
 {
@@ -106,6 +97,7 @@ namespace TestPlatform.Games
             this.txtTrainingReportFrequency.Text = this.trainerSettings.WriteToReportFrequency.ToString();
             this.txtWeightFileIn.Text = this.trainerSettings.WeightFileIn;
             this.txtWeightFileOut.Text = this.trainerSettings.WeightFileOutBase;
+            this.txtWinHistoryLength.Text = this.trainerSettings.WinHistoryLength.ToString();
         }
 
         /// <summary>
@@ -123,6 +115,7 @@ namespace TestPlatform.Games
             this.trainerSettings.WeightFileOutBase = this.txtWeightFileOut.Text;
             this.trainerSettings.SaveWeightFileFrequency = int.Parse(this.txtSaveFrequency.Text);
             this.trainerSettings.ReportFolder = this.txtReportFolder.Text;
+            this.trainerSettings.WinHistoryLength = int.Parse(this.txtWinHistoryLength.Text);
             this.trainerSettings.WriteToReportFrequency = int.Parse(this.txtTrainingReportFrequency.Text);
         }
 
@@ -282,7 +275,7 @@ namespace TestPlatform.Games
                     this.trainer.Reward();
                 }
 
-                if (this.trainer.settings.MaxGenerations < this.trainer.Generation)
+                if (this.trainer.TrainingComplete())
                 {
                     this.tmrPace.Enabled = false;
                     this.DisplayMsg("Training complete");
