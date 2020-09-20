@@ -140,15 +140,15 @@ namespace TestPlatform.Games
                 this.ValidMoves += game.ValidMoves;
                 this.InvalidMoves += game.InvalidMoves;
             }
-            //record history of wins
-            this.WinsHistory.Add(this.Wins);
-            //make sure we dont go over the limit
-            if (this.WinsHistory.Count > this.settings.WinHistoryLength) this.WinsHistory.RemoveAt(0);
             //note if any games are still running
             this.GamesRunning = blnFoundGameRunning;
             if (!blnFoundGameRunning)
             {
                 //all of the games have finished.
+                //record history of wins
+                this.WinsHistory.Add(this.Wins);
+                //make sure we dont go over the limit
+                if (this.WinsHistory.Count > this.settings.WinHistoryLength) this.WinsHistory.RemoveAt(0);
 
             }
             return blnFoundGameRunning;
