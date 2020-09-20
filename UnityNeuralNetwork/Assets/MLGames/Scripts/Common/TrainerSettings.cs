@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static MLGames.NNSettings;
+﻿using static MLGames.NNSettings;
 
 namespace TestPlatform.Common
 {
-    //TODO: Add max generations to settings
     //TODO: Add plateau detection to trainer
     //TODO: Add worker server logic - the server logic.  the main server adds configurations to try.  the workers select configuration, run them and report the results
     //TODO: Add ML optimizer to the server to select which configuration to try next
@@ -63,6 +57,10 @@ namespace TestPlatform.Common
         /// 
         /// </summary>
         public int MaxGenerations { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int WinHistoryLength { get; set; }
 
         /// <summary>
         /// 

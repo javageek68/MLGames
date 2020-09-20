@@ -1,13 +1,7 @@
 ﻿using MLGames;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.SymbolStore;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using TestPlatform.Common;
-using static MLGames.NNSettings;
 
 namespace TestPlatform.Games
 {
@@ -45,6 +39,8 @@ namespace TestPlatform.Games
         private GeneticAlgorithm geneticAlgorithm = null;
         private List<TTTGame> games = new List<TTTGame>();
         private NeuralNetwork startingNetwork;
+        private List<int> WinsHistory = new List<int>();
+        
 
 
         /// <summary>
@@ -144,6 +140,11 @@ namespace TestPlatform.Games
                 this.ValidMoves += game.ValidMoves;
                 this.InvalidMoves += game.InvalidMoves;
             }
+            //record history of wins
+            this.WinsHistory.Add(this.Wins);
+            //make sure we dont go over the limit
+            if (this.WinsHistory.Count > this.settings.WinHistoryLength) this.WinsHistory.RemoveAt(0);
+            //note if any games are still running
             this.GamesRunning = blnFoundGameRunning;
             if (!blnFoundGameRunning)
             {
@@ -163,6 +164,36 @@ namespace TestPlatform.Games
             //save the weight files every saveWeightsFrequency generations
             if (this.Generation % this.settings.SaveWeightFileFrequency == 0) this.Save();
             this.AssignGames();
+        }
+
+        /// <summary>
+        /// Check to see if training is over
+        /// </summary>
+        /// <returns></returns>
+        public bool TrainingComplete()
+        {
+            bool trainingComplete = true;
+
+            //check to see if we have reached the max number of generations
+            bool reachedMaxGenerations = this.Generation > this.settings.MaxGenerations;
+            //check to see if we have reached a plateau in training
+            bool reachedPlateau = false;
+            //see if we got better results WinHistoryLength generations ago
+            if (this.Generation >= this.settings.WinHistoryLength)
+            {
+                //get the wins from the current generation
+                int LastGen = this.WinsHistory[this.WinsHistory.Count-1];
+                //get the wins from WinHistoryLength generations ago
+                int FirstGen = this.WinsHistory[0];
+                //if the old number of wins was greater, then training has reached its limits.
+                reachedPlateau = FirstGen > LastGen;
+            }
+
+            //we are still training if we have not reached the max generations and have
+            //not reached a training plateau
+            trainingComplete = reachedMaxGenerations || reachedPlateau;
+
+            return trainingComplete;
         }
 
         /// <summary>
