@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mono.Data.Sqlite;
+using System;
 using System.Data;
 
 
@@ -7,7 +8,7 @@ namespace dbUtilities
     public class clsDbUtil
     {
 
-        private SQLiteConnection DbCnxn = null;
+        private SqliteConnection DbCnxn = null;
 
         private IDataReader DbReader = null;
         private IDataAdapter DbAdapter = null;
@@ -157,7 +158,7 @@ namespace dbUtilities
             if (!string.IsNullOrEmpty(this.strCnxnString)) {
 	            // Do we already have an open connection?  If so, don't bother.
 	            if ((this.DbCnxn == null)) {
-                    this.DbCnxn = new SQLiteConnection(this.strCnxnString);
+                    this.DbCnxn = new SqliteConnection(this.strCnxnString);
 
 		            if (this.DbCnxn.State == ConnectionState.Broken) {
 			            // The connection has been broken.  Close it before re-opening it.
@@ -352,7 +353,7 @@ namespace dbUtilities
                     //add the connection to the command
                     this.Command.Connection = this.DbCnxn;
                     //create the adapter user the command
-                    this.DbAdapter = new SQLiteDataAdapter((SQLiteCommand)this.Command);
+                    this.DbAdapter = new SqliteDataAdapter((SqliteCommand)this.Command);
                     //use the adapter to fill the dataset
                     this.DbAdapter.Fill(dsReturnValue);
 

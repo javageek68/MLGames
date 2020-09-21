@@ -95,7 +95,8 @@ namespace General
         /// </summary>
         private static void ReadConfig()
         {
-            logLevel = Configuration.GetLogLevel(Level.Exception);
+            logLevel = Level.High;
+            //logLevel = Configuration.GetLogLevel(Level.Exception);
             strLogFolder = Constants.Paths.Logs;
             blnReadConfig = true;
         }

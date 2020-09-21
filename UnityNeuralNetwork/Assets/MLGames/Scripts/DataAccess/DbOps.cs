@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using General;
+using Mono.Data.Sqlite;
 
 namespace DataAccess
 {
@@ -28,7 +29,8 @@ namespace DataAccess
                 strCnxnKey = Constants.ConnectionStrings.LocalAdminCnxn;
                 Logger.Log(Logger.Level.High, string.Format("Using connection string key {0} ", strCnxnKey));
                 //get the connection string from web.config for this connection string name
-                strRetVal = ConfigurationManager.ConnectionStrings[strCnxnKey].ConnectionString;
+                //strRetVal = ConfigurationManager.ConnectionStrings[strCnxnKey].ConnectionString;
+                strRetVal = "";
 
                 if (strRetVal.Trim().Length == 0)
                 {
@@ -628,7 +630,7 @@ namespace DataAccess
                            + "  FROM Settings "
                            + " WHERE SettingName = @SettingName ";
 
-                    objDbUtil.Command.Parameters.Add(new SQLiteParameter("@SettingName", strSettingName));
+                    objDbUtil.Command.Parameters.Add(new SqliteParameter("@SettingName", strSettingName));
 
                     ds = objDbUtil.getDataSet(strSQL);
 
@@ -696,9 +698,9 @@ namespace DataAccess
                                 + "   SET SettingValue = '{0}'"
                                 + " WHERE SettingName = '{1}'", strSettingValue, strSettingName);
 
-                    objDbUtil.Command.Parameters.Add(new SQLiteParameter("@SettingName", strSettingName));
+                    objDbUtil.Command.Parameters.Add(new SqliteParameter("@SettingName", strSettingName));
 
-                    objDbUtil.Command.Parameters.Add(new SQLiteParameter("@SettingValue", strSettingValue));
+                    objDbUtil.Command.Parameters.Add(new SqliteParameter("@SettingValue", strSettingValue));
 
 
                     dReader = objDbUtil.getDataReader(strSQL);
