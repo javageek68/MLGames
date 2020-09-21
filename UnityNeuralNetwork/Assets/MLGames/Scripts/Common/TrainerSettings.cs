@@ -2,7 +2,6 @@
 
 namespace TestPlatform.Common
 {
-    //TODO: Add plateau detection to trainer
     //TODO: Add worker server logic - the server logic.  the main server adds configurations to try.  the workers select configuration, run them and report the results
     //TODO: Add ML optimizer to the server to select which configuration to try next
     //TODO: Port non UI classes over to the Unity project
