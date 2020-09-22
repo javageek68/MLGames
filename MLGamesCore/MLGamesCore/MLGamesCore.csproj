@@ -8,10 +8,6 @@
     <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Common\Smoother.cs" Link="Common\Smoother.cs" />
     <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Common\StringUtils.cs" Link="Common\StringUtils.cs" />
     <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Common\TrainerSettings.cs" Link="Common\TrainerSettings.cs" />
-    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\DataAccess\clsDbUtil.cs" Link="DataAccess\clsDbUtil.cs" />
-    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\DataAccess\Constants.cs" Link="DataAccess\Constants.cs" />
-    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\DataAccess\DbOps.cs" Link="DataAccess\DbOps.cs" />
-    <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\DataAccess\Upgrade.cs" Link="DataAccess\Upgrade.cs" />
     <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Games\TicTacToe\TicTacToe.cs" Link="Games\TicTacToe\TicTacToe.cs" />
     <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Games\TicTacToe\Trainer.cs" Link="Games\TicTacToe\Trainer.cs" />
     <Compile Include="..\..\UnityNeuralNetwork\Assets\MLGames\Scripts\Games\TicTacToe\TTTGame.cs" Link="Games\TicTacToe\TTTGame.cs" />
@@ -31,6 +27,10 @@
     <Folder Include="Common\" />
     <Folder Include="DataAccess\" />
     <Folder Include="General\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
